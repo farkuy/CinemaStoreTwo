@@ -66,7 +66,7 @@ Content.belongsTo(MovieStudio);
 Content.hasMany(Rating);
 Rating.belongsTo(Content);
 
-Content.hasMany(BasketContent);
+Content.hasMany(BasketContent, {as: 'info'});
 BasketContent.belongsTo(Content);
 
 Genre.belongsToMany(MovieStudio, {through: GenreMovieStudio});
