@@ -43,3 +43,8 @@
     animation: fade .8s;
     width: 40%;
 }
+
+strong {
+    color: mediumpurple;
+    cursor: pointer;
+}

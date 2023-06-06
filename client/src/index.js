@@ -7,7 +7,6 @@ import {Provider} from "react-redux";
 import {store} from "./toolkitRedux";
 
 export const Context = createContext(null);
-
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(

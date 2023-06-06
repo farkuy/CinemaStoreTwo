@@ -2,6 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react';
 import SearchIcon from '@mui/icons-material/Search';
 import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
+import './SerachStyle.css'
 const SearchCustom  = () => {
 
     const [search, setSearch] = useState(``);
@@ -13,14 +14,17 @@ const SearchCustom  = () => {
 
     return (
         <Box sx={{ color: 'black', display: 'flex', alignItems: 'center' }}>
-            <SearchIcon sx={{ marginRight: '10px' }} />
-            <Input
-                value={search}
-                placeholder={'search...'}
-                onChange={searchContent}
-                sx={{width: `100%`,  background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)' ,color: 'rgba(0, 0, 0, 0.6)', fontSize: '1.1rem'}}
-                disableUnderline
-            />
+            <div className={'search'}>
+                <SearchIcon sx={{ marginRight: '10px', color: 'rgba(255, 255, 255, 1)' }} />
+                <Input
+                    value={search}
+                    placeholder={'search...'}
+                    onChange={searchContent}
+                    sx={{width: `100%`,color: 'rgba(255, 255, 255, 0.75)', fontSize: '1.1rem'}}
+                    disableUnderline
+                />
+            </div>
+
         </Box>
     )
 }

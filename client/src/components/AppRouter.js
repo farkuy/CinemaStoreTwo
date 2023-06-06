@@ -1,13 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {Route, Routes} from "react-router-dom";
 import {authRoutes, publicRoutes} from "../routes";
-import Cinema from "../pages/Cinema";
 import {Context} from "../index";
+import StartPage from "../pages/StartPage";
 
 const AppRouter = () => {
     const {user} = useContext(Context);
-
-    console.log(user)
 
     return (
         <Routes>
@@ -21,7 +19,7 @@ const AppRouter = () => {
                     return <Route key={path} path={path} element={Component}/>
                 })
             }
-            <Route path='*' element={<Cinema/>}/>
+            <Route path='*' element={<StartPage/>}/>
         </Routes>
     );
 };
