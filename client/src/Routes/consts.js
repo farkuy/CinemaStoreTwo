@@ -6,4 +6,7 @@ export const START_ROUTE = '/'
 export const PROFILE_ROUTE = '/profile'
 export const BASKET_ROUTE = '/basket'
 export const CONTENT_ROUTE = '/content'
-
+export const CONTENT_LIST_ROUTE = '/contentList'
+export const FILM_SELECTION_ROUTE = '/filmTopSelection'
+export const GENRE_FILMS_SELECTION_ROUTE = '/genreFilmsSelection'
+export const YEAR_FILMS_SELECTION_ROUTE = '/yearFilmsSelection'

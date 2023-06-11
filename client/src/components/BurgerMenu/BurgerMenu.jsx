@@ -1,7 +1,7 @@
 import React from 'react';
 import './BurgerMenuStyle.css'
 import {NavLink} from "react-router-dom";
-import {CINEMA_ROUTE} from "../../utils/consts";
+import {CINEMA_ROUTE, FILM_SELECTION_ROUTE} from "../../Routes/consts";
 const BurgerMenu = () => {
     return (
         <div className="hamburger-menu">
@@ -11,7 +11,7 @@ const BurgerMenu = () => {
             </label>
 
             <ul className="menu__box">
-                <li><NavLink className="menu__item" to={CINEMA_ROUTE}>Films</NavLink></li>
+                <li><NavLink className="menu__item" to={CINEMA_ROUTE + FILM_SELECTION_ROUTE}>Films</NavLink></li>
                 <li><a className="menu__item" href="#">Serial</a></li>
                 <li><a className="menu__item" href="#">Cartoon</a></li>
             </ul>

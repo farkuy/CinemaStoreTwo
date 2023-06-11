@@ -4,7 +4,7 @@ import {Link, useNavigate} from "react-router-dom"
 import './AuthStyle.css'
 import {check, login, registration} from "../../http/userApi";
 import {Context} from "../../index";
-import {CINEMA_ROUTE} from "../../utils/consts";
+import {CINEMA_ROUTE} from "../../Routes/consts";
 
 const Auth = () => {
     const [showModal, setShowModal] = useState(`dm-overlay-active`);
@@ -17,11 +17,12 @@ const Auth = () => {
     const signIn = async (e) => {
         try {
             if (authOrRegistration === 'logIn') {
-                await login(email, password);
+                const profile = await login(email, password);
+                user.setUser(profile)
             } else {
-                await registration(email, password);
+                const profile = await registration(email, password);
+                user.setUser(profile)
             }
-            user.setUser(user);
             user.setIsAuth(true);
             history(CINEMA_ROUTE)
         } catch (e) {

@@ -3,7 +3,7 @@ import {Context} from "../../index";
 import {AppBar, Button, Container, Stack, Toolbar, Typography} from "@mui/material";
 import SearchCustom from "../Search/SearchCustom";
 import {NavLink, useNavigate} from "react-router-dom";
-import {CINEMA_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../utils/consts";
+import {CINEMA_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
 import {useDispatch, useSelector} from "react-redux";
 import {setIsAuth} from "../../toolkitRedux/userReducer";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
