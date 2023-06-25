@@ -3,30 +3,25 @@ import {Context} from "../../index";
 import {AppBar, Button, Container, Stack, Toolbar, Typography} from "@mui/material";
 import SearchCustom from "../Search/SearchCustom";
 import {NavLink, useNavigate} from "react-router-dom";
-import {CINEMA_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
-import {useDispatch, useSelector} from "react-redux";
-import {setIsAuth} from "../../toolkitRedux/userReducer";
+import {LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Box from "@mui/material/Box";
 
 const NavBar = () => {
     const {user} = useContext(Context);
     const history = useNavigate();
-
-    const dispatch = useDispatch();
-    const isAuth = useSelector(state => state.user.isAuth);
-
     const logIn = (e) => {
         e.preventDefault();
-        dispatch(setIsAuth(true));
+        user.setIsAuth(true);
         history(LOGIN_ROUTE)
     }
 
     const logOut = (e) => {
         e.preventDefault();
-        dispatch(setIsAuth(false));
+        user.setIsAuth(false);
+        user.setUser({})
         localStorage.removeItem('token')
-        history(CINEMA_ROUTE);
+        history(START_ROUTE);
     }
 
     return (
@@ -46,7 +41,7 @@ const NavBar = () => {
                             </NavLink>
                             <SearchCustom/>
                             {
-                                isAuth
+                                user.isAuth
                                     ? <div style={{display: "flex", flexDirection: "row"}}>
                                         <Button variant="contained">Админ панель</Button>
                                         <Button variant="contained"

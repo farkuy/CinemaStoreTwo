@@ -1,5 +1,5 @@
 import {createSlice} from "@reduxjs/toolkit";
-import {getTop100PopularFilms, getTop250Movies} from "../http/kinopoiskApi";
+import {getMostAnticipatedMovies, getTop100PopularFilms, getTop250Movies} from "../http/kinopoiskApi";
 
 const compilation = createSlice({
     name: 'compilation',
@@ -14,6 +14,12 @@ const compilation = createSlice({
             url: '/top100PopularFilms',
             getApi: function (page){
                 return getTop100PopularFilms.getTop(page)
+            }
+        },
+        {
+            url: '/topExpectedMovies',
+            getApi: function (page){
+                return getMostAnticipatedMovies.getMostAnticipatedMovies(page)
             }
         },
     ],

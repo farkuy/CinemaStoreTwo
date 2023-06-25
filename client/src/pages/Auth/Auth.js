@@ -32,7 +32,6 @@ const Auth = () => {
 
     function handleSubmit(e) {
         e.preventDefault();
-        console.log(email, password)
     };
 
 

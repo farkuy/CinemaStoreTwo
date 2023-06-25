@@ -29,7 +29,6 @@ const SelectionContentList = () => {
         <ul>
             {
                 compilation.map((section, index) => {
-                    console.log(`${window.location.pathname}${CONTENT_LIST_ROUTE}${section.route}`)
                     return <li onClick={() => history(`${window.location.pathname}${CONTENT_LIST_ROUTE}${section.route}`)} className={'list-style-none'}>{section.name}</li>
                 })
             }

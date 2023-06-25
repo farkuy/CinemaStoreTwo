@@ -1,7 +1,7 @@
 import {
     ADMIN_ROUTE,
     BASKET_ROUTE,
-    CINEMA_ROUTE,
+    CINEMA_ROUTE, CONTENT_PAGE_ROUTE,
     CONTENT_ROUTE, FILM_SELECTION_ROUTE, GENRE_FILMS_SELECTION_ROUTE,
     LOGIN_ROUTE,
     REGISTRATION_ROUTE, YEAR_FILMS_SELECTION_ROUTE,
@@ -10,9 +10,8 @@ import {
 import Admin from "../pages/Admin";
 import Basket from "../pages/Basket";
 import Auth from "../pages/Auth/Auth";
-import ContentPage from "../pages/ContentPage";
 import Cinema from "../pages/Cinema";
-import ContentList from "../components/ContentList/ContentList";
+import ContentPage from "../components/ContentPage/ContentPage";
 
 export const authRoutes = [
     {
@@ -39,7 +38,7 @@ export const publicRoutes = [
         Component: <Auth/>
     },
     {
-        path: CONTENT_ROUTE + '/id',
+        path: `${CONTENT_ROUTE}/:id`,
         Component: <ContentPage/>
     },
 ];
