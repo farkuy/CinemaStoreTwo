@@ -3,6 +3,7 @@ import './SelectionContentStyle.css'
 import {useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {CONTENT_LIST_ROUTE} from "../../Routes/consts";
+import CardAboutCategory from "../CardAboutCategor/CardAboutCategory";
 const SelectionContentList = () => {
 
     const contentInfo = useSelector(state => state.content.infoFilm);
@@ -26,10 +27,14 @@ const SelectionContentList = () => {
     }, [])
 
     return (
-        <ul>
+        <ul
+            className={''}
+        >
             {
                 compilation.map((section, index) => {
-                    return <li onClick={() => history(`${window.location.pathname}${CONTENT_LIST_ROUTE}${section.route}`)} className={'list-style-none'}>{section.name}</li>
+                    return <li onClick={() => history(`${window.location.pathname}${CONTENT_LIST_ROUTE}${section.route}`)} className={'list-style-none'}>
+                        <CardAboutCategory info={section}/>
+                    </li>
                 })
             }
         </ul>

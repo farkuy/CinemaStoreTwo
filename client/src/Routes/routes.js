@@ -4,7 +4,7 @@ import {
     CINEMA_ROUTE, CONTENT_PAGE_ROUTE,
     CONTENT_ROUTE, FILM_SELECTION_ROUTE, GENRE_FILMS_SELECTION_ROUTE,
     LOGIN_ROUTE,
-    REGISTRATION_ROUTE, YEAR_FILMS_SELECTION_ROUTE,
+    REGISTRATION_ROUTE, SEARCH_LIST_ROUTE, YEAR_FILMS_SELECTION_ROUTE,
 } from "./consts";
 
 import Admin from "../pages/Admin";
@@ -12,6 +12,7 @@ import Basket from "../pages/Basket";
 import Auth from "../pages/Auth/Auth";
 import Cinema from "../pages/Cinema";
 import ContentPage from "../components/ContentPage/ContentPage";
+import SearchList from "../components/SearchList/SearchList";
 
 export const authRoutes = [
     {
@@ -40,6 +41,10 @@ export const publicRoutes = [
     {
         path: `${CONTENT_ROUTE}/:id`,
         Component: <ContentPage/>
+    },
+    {
+        path: SEARCH_LIST_ROUTE,
+        Component: <SearchList/>
     },
 ];
 

@@ -3,8 +3,8 @@ import ContentBox from "../ContentBox/ContentBox";
 import './ContentListSryle.css'
 import {useSelector} from "react-redux";
 import {CircularProgress} from "@mui/material";
-import ContentFilter from "../contnentFilter/ContentFilter";
 import ModalWindow from "../ModalWindow/ModalWindow";
+import ArrowToTop from "../ArrowToTop/ArrowToTop";
 const ContentList = () => {
 
     const getApiInfo = useSelector(state => state.compilation)
@@ -33,10 +33,15 @@ const ContentList = () => {
 
     useEffect(() => {
         const handleScroll = () => {
-            const topOffset = paginationElement.current.getBoundingClientRect().top;
-            if (topOffset <= window.innerHeight) {
-                setPage(page + 1);
+            try {
+                const topOffset = paginationElement.current.getBoundingClientRect().top;
+                if (topOffset <= window.innerHeight) {
+                    setPage(page + 1);
+                }
+            } catch (e) {
+                return
             }
+
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -56,11 +61,12 @@ const ContentList = () => {
 
     return (
         <div>
+            <ArrowToTop/>
             <ModalWindow filterContent={filterContent} infoAboutContentList={contentList}/>
             <div className={'list'}>
                 {
                     filterConentList.map((content, index) => {
-                        return <ContentBox info={content}/>
+                        return <ContentBox key={content.id} info={content}/>
                     })
                 }
                 {

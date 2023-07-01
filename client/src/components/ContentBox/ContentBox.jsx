@@ -2,7 +2,6 @@ import React, {useEffect, useState} from 'react';
 import {convertToObjectFromAPISource} from "../../utils/functionForApi";
 import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
 import './ContentBoxStyle.css'
-import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import {CONTENT_ROUTE} from "../../Routes/consts";
 const ContentBox = ({info}) => {
@@ -10,7 +9,8 @@ const ContentBox = ({info}) => {
     const infoStandard = convertToObjectFromAPISource(info);
     const history = useNavigate();
 
-    useEffect(() => {
+    useEffect( () => {
+        console.log(infoStandard)
         let g = ``;
         for (let i of infoStandard.genres) {
             g += i.genre + ` `
@@ -27,7 +27,7 @@ const ContentBox = ({info}) => {
         <div>
             {
                 Object.keys(info).length === 0
-                    ? <div className={`ContentCard`}>da</div>
+                    ? <div className={`ContentCard`}></div>
                     :
                     <Card
                         onClick={getMoviePage}

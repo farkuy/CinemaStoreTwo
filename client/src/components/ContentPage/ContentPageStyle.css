@@ -26,17 +26,19 @@ h2 {
 
 .wrapper {
     display: grid;
-    grid-template-columns: 340px 530px 150px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-gap: 40px;
     padding-top: 80px;
     padding-bottom: 80px;
+    justify-content: center;
+    justify-items: center;
 }
 
 .title {
     font-size: 36px;
     font-weight: 900;
+    margin-top: 0;
     margin-bottom: 10px;
-    padding-top: 20px;
     line-height: 42px;
 }
 
@@ -131,7 +133,7 @@ h2 {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 870px) {
     .wrapper {
         grid-template-columns: 1fr 150px;
         max-width: 520px;
@@ -145,7 +147,7 @@ h2 {
     }
 }
 
-@media (max-width: 425px) {
+@media (max-width: 590px) {
     .wrapper {
         grid-template-columns: 1fr;
         max-width: 100%;
@@ -155,4 +157,27 @@ h2 {
         grid-row: unset;
         grid-column: 1;
     }
+}
+
+.listSeq {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-content: center;
+    padding: 10px;
+    position: relative;
+    justify-items: center;
+
+}
+
+@media (max-width: 870px) {
+    .listSeq {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 590px) {
+    .listSeq {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
 }

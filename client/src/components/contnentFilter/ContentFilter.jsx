@@ -5,11 +5,12 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    Slider, TextField
+    Slider, Stack, TextField
 } from '@mui/material';
 import { maineInfoAboutContent } from '../../http/kinopoiskApi';
 import Box from '@mui/material/Box';
 import {useSelector} from "react-redux";
+import './ContentFilterStyle.css'
 
 const ContentFilter = ({infoAboutContentList, filterContent}) => {
     const [minAge, setMinAge] = useState(1885);
@@ -211,64 +212,82 @@ const ContentFilter = ({infoAboutContentList, filterContent}) => {
 
     return (
         <div>
-            <Box sx={{ width: 300 }}>
-                <Slider
-                    min={1885}
-                    max={new Date().getFullYear() + 10}
-                    getAriaLabel={() => 'Temperature range'}
-                    value={[minAge, maxAge]}
-                    onChange={handleChangAge}
-                    valueLabelDisplay="auto"
-                />
-                <TextField id="standard-basic" label="Начало периода" value={minAge} onInput={minChange}/>
-                <TextField id="standard-basic" label="Конец периода" value={maxAge} onInput={maxChange}/>
+            <Box sx={{ width: '100%' }}>
+                <div className={`center`}>
+                    <div
+                        style={{width: '70%'}}
+                    >
+                        <Slider
+                            min={1885}
+                            max={new Date().getFullYear() + 10}
+                            getAriaLabel={() => 'Temperature range'}
+                            value={[minAge, maxAge]}
+                            onChange={handleChangAge}
+                            valueLabelDisplay="auto"
+                        />
+                    </div>
+                    <div>
+                        <TextField style={{margin: `3px`}} id="standard-basic" label="Начало периода" value={minAge} onInput={minChange}/>
+                        <TextField style={{margin: `3px`}} id="standard-basic" label="Конец периода" value={maxAge} onInput={maxChange}/>
+                    </div>
+                </div>
             </Box>
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-standard-label">Genre</InputLabel>
-                <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    value={genre}
-                    onChange={handleChangGenre}
-                    label="Genre"
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    {allGenre.map(g => (
-                        <MenuItem value={g.genre} key={g.id}>
-                            {g.genre}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+            <div className={'center'}>
+                <div>
+                    <FormControl variant="standard" style={{margin: `15px`, minWidth: 120}}>
+                        <InputLabel id="demo-simple-select-standard-label">Genre</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={genre}
+                            onChange={handleChangGenre}
+                            label="Genre"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {allGenre.map(g => (
+                                <MenuItem value={g.genre} key={g.id}>
+                                    {g.genre}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
 
-            <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                <InputLabel id="demo-simple-select-standard-label">Country</InputLabel>
-                <Select
-                    labelId="demo-simple-select-standard-label"
-                    id="demo-simple-select-standard"
-                    value={country}
-                    onChange={handleChangCountru}
-                    label="Country"
-                >
-                    <MenuItem value="">
-                        <em>None</em>
-                    </MenuItem>
-                    {allCountry.map(g => (
-                        <MenuItem value={g.country} key={g.id}>
-                            {g.country}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-            <Button
-                onClick={filter}
-                variant="contained"
-                color="primary"
-            >
-                Поиск
-            </Button>
+                    <FormControl variant="standard" style={{margin: `15px`, minWidth: 120}}>
+                        <InputLabel id="demo-simple-select-standard-label">Country</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-standard-label"
+                            id="demo-simple-select-standard"
+                            value={country}
+                            onChange={handleChangCountru}
+                            label="Country"
+                        >
+                            <MenuItem value="">
+                                <em>None</em>
+                            </MenuItem>
+                            {allCountry.map(g => (
+                                <MenuItem value={g.country} key={g.id}>
+                                    {g.country}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </FormControl>
+                </div>
+                <div>
+                    <FormControl variant="standard" sx={{minWidth: 120 }}>
+                        <Button
+                            onClick={filter}
+                            variant="contained"
+                            color="primary"
+                        >
+                            Поиск
+                        </Button>
+                    </FormControl>
+                </div>
+
+            </div>
+
         </div>
     );
 };

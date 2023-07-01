@@ -30,9 +30,7 @@ const Cinema = () => {
     return (
         <div>
             <SelectionCategoreNavigation/>
-
             <SelectionContentList/>
-
         </div>
     );
 };
