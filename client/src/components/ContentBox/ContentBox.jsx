@@ -1,26 +1,36 @@
 import React, {useEffect, useState} from 'react';
 import {convertToObjectFromAPISource} from "../../utils/functionForApi";
 import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
-import './ContentBoxStyle.css'
+import './ContentBoxStyle.css';
 import {useNavigate} from "react-router-dom";
 import {CONTENT_ROUTE} from "../../Routes/consts";
+import {addContentBasket} from "../../http/basketApi";
 const ContentBox = ({info}) => {
     const [genres, setGenres] = useState('');
     const infoStandard = convertToObjectFromAPISource(info);
     const history = useNavigate();
 
     useEffect( () => {
-        console.log(infoStandard)
         let g = ``;
         for (let i of infoStandard.genres) {
             g += i.genre + ` `
-        }
-        setGenres(g)
+        };
+        setGenres(g);
     }, []);
 
     const getMoviePage = (e) => {
         e.preventDefault();
-        history(`${CONTENT_ROUTE}/:${info.filmId}`)
+        history(`${CONTENT_ROUTE}/:${info.filmId}`);
+    };
+
+    const addContentToBasket = async (e) => {
+        e.stopPropagation();
+
+        const userId = localStorage.getItem('userId')
+        await addContentBasket(Number(userId), info.filmId, info)
+            .then(data => {
+                console.log(data)
+            })
     }
 
     return (
@@ -50,7 +60,11 @@ const ContentBox = ({info}) => {
                             </CardContent>
                         </CardActionArea>
                         <CardActions className={`movie__btn`}>
-                            <Button size="small" color="primary">
+                            <Button
+                                size="small"
+                                color="primary"
+                                onClick={addContentToBasket}
+                            >
                                 Добавить в закладки
                             </Button>
                         </CardActions>

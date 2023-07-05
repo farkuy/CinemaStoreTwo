@@ -17,10 +17,10 @@ const BasketContent = sequelize.define('basket_content', {
 });
 
 const Content = sequelize.define('content', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    name: {type: DataTypes.STRING, unique: true, allowNull: false},
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: false},
+    name: {type: DataTypes.STRING, unique: true},
     rating: {type: DataTypes.INTEGER, defaultValue: 0},
-    img: {type: DataTypes.STRING, allowNull: false},
+    img: {type: DataTypes.STRING},
 });
 
 const Genre = sequelize.define('genre', {

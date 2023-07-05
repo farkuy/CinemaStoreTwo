@@ -6,7 +6,7 @@ import {
     top250Films
 } from "../utils/constsForApi";
 
-const apiKey = 'da54e60b-6df3-487b-99d2-a16d293f1eae';
+const apiKey = '589a46d8-a49d-4219-9604-252b052367f5';
 class KinopoiskApiInfo {
     constructor(url, key) {
         this.url = url;
@@ -39,6 +39,18 @@ class KinopoiskApiInfo {
     async getFilmInfo(id) {
         const trueId = id.slice(1)
         const response = await fetch(`${this.url}${trueId}`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+
+        const resp = await response.json();
+        return resp;
+    }
+
+    async getFilmInfoForBasket(id) {
+        const response = await fetch(`${this.url}${id}`, {
             headers: {
                 "Content-Type": `application/json`,
                 'X-API-KEY': apiKey

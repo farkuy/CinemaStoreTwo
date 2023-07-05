@@ -9,7 +9,7 @@ const generateJwt = (id, email, role) => {
         process.env.SECRET_KEY,
         { expiresIn: '2d' }
     );
-    return token;
+    return (token);
 };
 
 class UserController {
@@ -44,7 +44,12 @@ class UserController {
     }
 
     async check(req, res, next) {
-        const token = generateJwt(req.id, req.email, req.role);
+        const {email} = req.query;
+        const user = await User.findOne({ where: { email } });
+        if (!user) {
+            return next(ApiError.internal(`Пользователь с таким именем не найден`));
+        }
+        const token = generateJwt(user.id, user.email, user.role);
         return res.json({ token });
     }
 }

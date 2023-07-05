@@ -19,8 +19,10 @@ const NavBar = () => {
     const logOut = (e) => {
         e.preventDefault();
         user.setIsAuth(false);
-        user.setUser({})
-        localStorage.removeItem('token')
+        user.setUser({});
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userId');
+        localStorage.removeItem('token');
         history(START_ROUTE);
     }
 

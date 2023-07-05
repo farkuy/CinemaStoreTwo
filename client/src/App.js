@@ -13,7 +13,8 @@ function App() {
 
     useEffect(() => {
         if(localStorage.getItem('token')) {
-            check().then(data => {
+            const email = localStorage.getItem('userEmail');
+            check(email).then(data => {
                 user.setIsAuth(true)
                 user.setUser(true)
             }).finally(() => setLoading(false))
