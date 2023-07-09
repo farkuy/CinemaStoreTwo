@@ -17,10 +17,35 @@ const BasketContent = sequelize.define('basket_content', {
 });
 
 const Content = sequelize.define('content', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: false},
-    name: {type: DataTypes.STRING, unique: true},
-    rating: {type: DataTypes.INTEGER, defaultValue: 0},
-    img: {type: DataTypes.STRING},
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: false },
+    nameRu: { type: DataTypes.STRING, unique: true },
+    nameEn: { type: DataTypes.STRING, unique: true },
+    posterUrl: { type: DataTypes.STRING },
+    posterUrlPreview: { type: DataTypes.STRING },
+    filmId: { type: DataTypes.INTEGER },
+    year: { type: DataTypes.STRING },
+    genres: { type: DataTypes.JSONB },
+    countries: { type: DataTypes.JSONB },
+    rating: { type: DataTypes.STRING },
+    ratingVoteCount: { type: DataTypes.INTEGER },
+    ratingChange: { type: DataTypes.STRING },
+    filmLength: { type: DataTypes.STRING }
+});
+
+const Contents = sequelize.define('contents', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: false },
+    nameRu: { type: DataTypes.STRING, unique: true },
+    nameEn: { type: DataTypes.STRING, unique: true },
+    posterUrl: { type: DataTypes.STRING },
+    posterUrlPreview: { type: DataTypes.STRING },
+    filmId: { type: DataTypes.INTEGER },
+    year: { type: DataTypes.STRING },
+    genres: { type: DataTypes.JSONB },
+    countries: { type: DataTypes.JSONB },
+    rating: { type: DataTypes.STRING },
+    ratingVoteCount: { type: DataTypes.INTEGER },
+    ratingChange: { type: DataTypes.STRING },
+    filmLength: { type: DataTypes.STRING }
 });
 
 const Genre = sequelize.define('genre', {
@@ -69,6 +94,9 @@ Rating.belongsTo(Content);
 Content.hasMany(BasketContent, {as: 'info'});
 BasketContent.belongsTo(Content);
 
+Contents.hasMany(BasketContent, {as: 'info'});
+BasketContent.belongsTo(Contents);
+
 Genre.belongsToMany(MovieStudio, {through: GenreMovieStudio});
 MovieStudio.belongsToMany(Genre, {through: GenreMovieStudio});
 
@@ -77,6 +105,7 @@ module.exports = {
     Basket,
     BasketContent,
     Content,
+    Contents,
     Genre,
     MovieStudio,
     Rating,

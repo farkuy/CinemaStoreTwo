@@ -76,7 +76,7 @@ const SearchCustom  = () => {
                     onChange={searchContent}
                     onBlur={onBlur}
                     onFocus={focus}
-                    sx={{width: `100%`,color: 'rgba(255, 255, 255, 0.75)', fontSize: '1.1rem'}}
+                    sx={{width: `100px`,color: 'rgba(255, 255, 255, 0.75)', fontSize: '1.1rem'}}
                     disableUnderline
 
                 />

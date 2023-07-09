@@ -4,33 +4,67 @@ import {Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Typog
 import './ContentBoxStyle.css';
 import {useNavigate} from "react-router-dom";
 import {CONTENT_ROUTE} from "../../Routes/consts";
-import {addContentBasket} from "../../http/basketApi";
-const ContentBox = ({info}) => {
+import {addContentBasket, deleteContentBasket} from "../../http/basketApi";
+const ContentBox = ({info, removeContent}) => {
     const [genres, setGenres] = useState('');
     const infoStandard = convertToObjectFromAPISource(info);
+    const [location, setLocation] = useState('standart')
     const history = useNavigate();
 
     useEffect( () => {
         let g = ``;
-        for (let i of infoStandard.genres) {
-            g += i.genre + ` `
-        };
-        setGenres(g);
+        console.log(infoStandard)
+        if(infoStandard.genres) {
+            for (let i of infoStandard.genres) {
+                g += i.genre + ` `
+            };
+            setGenres(g);
+        } else {
+            setGenres('')
+        }
+
+        const handlePopstate = () => {
+            const url = window.location.href;
+            const parts = url.split('/');
+            const lastPart = parts[parts.length - 1];
+            setLocation(lastPart)
+        }
+
+        window.addEventListener('popstate', handlePopstate)
+
+        handlePopstate();
+
+        return () => {
+            window.removeEventListener('popstate', handlePopstate)
+        }
     }, []);
 
     const getMoviePage = (e) => {
         e.preventDefault();
-        history(`${CONTENT_ROUTE}/:${info.filmId}`);
+        history(`${CONTENT_ROUTE}/:${infoStandard.kinopoiskId}`);
     };
 
     const addContentToBasket = async (e) => {
         e.stopPropagation();
 
+        console.log(info)
         const userId = localStorage.getItem('userId')
         await addContentBasket(Number(userId), info.filmId, info)
             .then(data => {
                 console.log(data)
             })
+    }
+
+    const deleteContent = async (e) => {
+        e.stopPropagation();
+
+        const basketContentId = infoStandard.kinopoiskId;
+        const userId = localStorage.getItem('userId')
+        await deleteContentBasket(Number(basketContentId), Number(userId))
+            .then(data => {
+                console.log(data)
+            })
+        removeContent(basketContentId)
     }
 
     return (
@@ -60,13 +94,24 @@ const ContentBox = ({info}) => {
                             </CardContent>
                         </CardActionArea>
                         <CardActions className={`movie__btn`}>
-                            <Button
-                                size="small"
-                                color="primary"
-                                onClick={addContentToBasket}
-                            >
-                                Добавить в закладки
-                            </Button>
+                            {
+                                location !== 'basket'
+                                ? <Button
+                                        size="small"
+                                        color="primary"
+                                        onClick={addContentToBasket}
+                                    >
+                                        Добавить в закладки
+                                    </Button>
+                                :   <Button
+                                        size="small"
+                                        color="error"
+                                        onClick={deleteContent}
+                                    >
+                                        Удалить из закладок
+                                    </Button>
+                            }
+
                         </CardActions>
                     </Card>
             }

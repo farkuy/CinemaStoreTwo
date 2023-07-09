@@ -1,40 +1,42 @@
-import React, {useEffect, useMemo, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {showUserBasket} from "../http/basketApi";
 import ContentBox from "../components/ContentBox/ContentBox";
-import {getMovieById} from "../http/kinopoiskApi";
+import '../Styles/reUseStyle.css'
+import {CircularProgress} from "@mui/material";
 
 const Basket = () => {
 
     const [basketUserList, setBasketUserList] = useState([]);
-    const [firstData, setFirstData] = useState([])
+    const [firstData, setFirstData] = useState([]);
+    const [load, setLoad] = useState(true);
 
     useEffect(() => {
         let userId = localStorage.getItem('userId');
         showUserBasket(Number (userId))
             .then(async (data) => {
                 await setFirstData(data)
+                setLoad(false)
             })
     }, [])
 
-    useMemo(() => {
-        const fetchData = async () => {
-            const finallyArr = [];
-            for (let i = 0; i < firstData.length; i++) {
-                const c = firstData[i];
-                const data = await getMovieById.getFilmInfoForBasket(c.contentId);
-                finallyArr.push(data);
-            }
-            setBasketUserList(finallyArr);
-        };
 
-        fetchData();
-    }, [firstData]);
+    if(load) {
+        return <CircularProgress/>
+    }
+    const removeContent = (contentId) => {
+        const filter = [...firstData].filter((content) => {
+             if (contentId !== content.id) {
+                 return true
+             }
+        });
+        setFirstData(filter);
+    };
 
     return (
-        <div>
+        <div className={'list'}>
             {
-                basketUserList.map((c) => {
-                    return <ContentBox info={c} index={c.kinopoiskId}/>
+                firstData.map((c) => {
+                    return <ContentBox info={c} index={c.kinopoiskId} removeContent={removeContent}/>
                 })
             }
         </div>

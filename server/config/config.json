@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "metro2013",
+    "database": "online_cinme_two",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "postgres",
+    "password": "metro2013",
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  },
+  "production": {
+    "username": "postgres",
+    "password": "metro2013",
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "port": 5432,
+    "dialect": "postgres"
+  }
+}

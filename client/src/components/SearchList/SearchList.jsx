@@ -34,6 +34,7 @@ const SearchList = () => {
                 console.log(data)
                 setContentList([ ...contentList,...data.items]);
                 setFinallyContentList([ ...finallyContentList,...data.items]);
+                console.log([...finallyContentList,...data.items])
                 setLoad(false);
             })
     }, [page])

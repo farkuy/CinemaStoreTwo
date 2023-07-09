@@ -6,7 +6,7 @@ const basketController = require('../controllers/bassketController')
 
 router.post('/', genreController('ADMIN'), contentController.create);
 router.post('/addBasketContent', basketController.addToBasket);
-router.post('/delBasketContent', basketController.removeFromBasket);
+router.delete('/delBasketContent', basketController.removeFromBasket);
 router.get('/getUserBasket', basketController.showUserBasket)
 router.get('/', contentController.getAll);
 router.get('/', contentController.getOne);

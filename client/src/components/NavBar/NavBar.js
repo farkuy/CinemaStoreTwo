@@ -3,7 +3,7 @@ import {Context} from "../../index";
 import {AppBar, Button, Container, Stack, Toolbar, Typography} from "@mui/material";
 import SearchCustom from "../Search/SearchCustom";
 import {NavLink, useNavigate} from "react-router-dom";
-import {LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
+import {BASKET_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Box from "@mui/material/Box";
 
@@ -46,6 +46,12 @@ const NavBar = () => {
                                 user.isAuth
                                     ? <div style={{display: "flex", flexDirection: "row"}}>
                                         <Button variant="contained">Админ панель</Button>
+                                        <Button
+                                            variant="contained"
+                                            onClick={(e) => history(BASKET_ROUTE)}
+                                        >
+                                            Мои фильмы
+                                        </Button>
                                         <Button variant="contained"
                                                 onClick={logOut}
                                         >

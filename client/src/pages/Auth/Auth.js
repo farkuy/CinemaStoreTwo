@@ -2,9 +2,9 @@ import React, {useContext, useState} from 'react';
 import { TextField, Button } from '@mui/material';
 import {Link, useNavigate} from "react-router-dom"
 import './AuthStyle.css'
-import {check, login, registration} from "../../http/userApi";
+import {login, registration} from "../../http/userApi";
 import {Context} from "../../index";
-import {CINEMA_ROUTE} from "../../Routes/consts";
+import {START_ROUTE} from "../../Routes/consts";
 
 const Auth = () => {
     const [showModal, setShowModal] = useState(`dm-overlay-active`);
@@ -24,7 +24,7 @@ const Auth = () => {
                 user.setUser(profile)
             }
             user.setIsAuth(true);
-            history(CINEMA_ROUTE)
+            history(START_ROUTE)
         } catch (e) {
             alert(e.response.data.message)
         }
