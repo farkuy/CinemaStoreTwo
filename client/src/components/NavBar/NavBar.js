@@ -1,21 +1,30 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {Context} from "../../index";
 import {AppBar, Button, Container, Stack, Toolbar, Typography} from "@mui/material";
 import SearchCustom from "../Search/SearchCustom";
 import {NavLink, useNavigate} from "react-router-dom";
-import {BASKET_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
+import {ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 import Box from "@mui/material/Box";
+import jwtDecode from "jwt-decode";
 
 const NavBar = () => {
     const {user} = useContext(Context);
     const history = useNavigate();
+    const [role, setRole] = useState('');
+
+    useEffect(() => {
+        let roleUser = localStorage.getItem('token');
+        if (roleUser) {
+            roleUser = jwtDecode(roleUser).role
+            setRole(roleUser)
+        }
+    }, [])
     const logIn = (e) => {
         e.preventDefault();
         user.setIsAuth(true);
         history(LOGIN_ROUTE)
     }
-
     const logOut = (e) => {
         e.preventDefault();
         user.setIsAuth(false);
@@ -45,7 +54,16 @@ const NavBar = () => {
                             {
                                 user.isAuth
                                     ? <div style={{display: "flex", flexDirection: "row"}}>
-                                        <Button variant="contained">Админ панель</Button>
+                                        {
+                                            role === "ADMIN"
+                                                ? <Button
+                                                    variant="contained"
+                                                    onClick={(e) => history(ADMIN_ROUTE)}
+                                                >
+                                                    Админ панель
+                                                </Button>
+                                                : <div></div>
+                                        }
                                         <Button
                                             variant="contained"
                                             onClick={(e) => history(BASKET_ROUTE)}

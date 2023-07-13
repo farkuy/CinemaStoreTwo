@@ -1,6 +1,6 @@
 import React from 'react';
 import Box from "@mui/material/Box";
-import {Button, Card, CardActions, CardContent, Typography} from "@mui/material";
+import {Card, CardContent, Typography} from "@mui/material";
 
 const bull = (
     <Box

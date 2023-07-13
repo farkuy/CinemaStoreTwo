@@ -8,6 +8,12 @@ const User = sequelize.define('user', {
     role: {type: DataTypes.STRING, defaultValue: "USER"},
 });
 
+const BecomeAnAdministrator = sequelize.define('becomeAnAdministrator', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    email: {type: DataTypes.STRING, unique: true,},
+    role: {type: DataTypes.STRING, defaultValue: "ADMIN"},
+})
+
 const Basket = sequelize.define('basket', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 });
@@ -110,7 +116,8 @@ module.exports = {
     MovieStudio,
     Rating,
     GenreMovieStudio,
-    ContentInfo
+    ContentInfo,
+    BecomeAnAdministrator,
 }
 
 

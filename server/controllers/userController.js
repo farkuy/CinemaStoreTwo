@@ -1,7 +1,8 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, Basket } = require('../models/models');
+const { User, Basket, BecomeAnAdministrator} = require('../models/models');
+const {Sequelize} = require("sequelize");
 
 const generateJwt = (id, email, role) => {
     const token = jwt.sign(
@@ -51,6 +52,36 @@ class UserController {
         }
         const token = generateJwt(user.id, user.email, user.role);
         return res.json({ token });
+    }
+
+    async requestAddNewAdmin(req, res, next) {
+        const {id} = req.body;
+        const user = await User.findOne({where: { id } })
+         if (!user) {
+             return next(ApiError.internal(`Пользователь с таким именем не найден`));
+         }
+         const invAdmin = await BecomeAnAdministrator.findOne({where: {id: user.id}})
+        if (!invAdmin) {
+            const newInvitation = await BecomeAnAdministrator.create({
+                id: user.id,
+                email: user.email,
+                role: 'ADMIN',
+            })
+            return res.json('Пользователю отправленно предложение стать Администратором')
+        }
+        return res.json('Пользователю уже было отправленно предложение стать Администратором')
+    }
+
+    async searchUser(req, res, next) {
+        const {email} = req.query;
+        const userList = await User.findAll({where: {
+            email: {
+                    [Sequelize.Op.like]: `%${email}%`,
+                },}})
+        if (!userList) {
+            return next(ApiError.internal(`Пользователь с таким именем не найден`));
+        }
+        return res.json(userList)
     }
 }
 
