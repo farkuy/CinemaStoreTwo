@@ -1,7 +1,8 @@
 import React, {useState} from 'react';
 import './ArrowToTopStyle.css'
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import {Button, makeStyles} from "@mui/material";
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
+import {IconButton} from "@mui/material";
+
 
 const ArrowToTop = () => {
     const [showArrow, setShowArrow] = useState(`hidden`)
@@ -15,15 +16,18 @@ const ArrowToTop = () => {
     })
 
     return (
-        <Button
-            onClick={(e) => {
-                e.preventDefault();
-                window.scrollTo(0, 0)
-            }}
-            style={{borderRadius: '50%', width: '56px', height: '56px', visibility: `${showArrow}`, position: 'fixed'}}
-            variant="contained"
-            startIcon={<ArrowUpwardIcon />}>
-        </Button>
+        <IconButton
+        >
+            <KeyboardDoubleArrowUpIcon
+                color="primary"
+                className={'arrow'}
+                style={{visibility: `${showArrow}`}}
+                onClick={(e) => {
+                    e.preventDefault();
+                    window.scrollTo(0, 0)
+                }}
+            />
+        </IconButton>
     );
 };
 

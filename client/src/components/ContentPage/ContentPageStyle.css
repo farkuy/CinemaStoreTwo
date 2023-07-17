@@ -1,5 +1,5 @@
 img {
-    width: 100%;
+    width: 70%;
     border-radius: 10px;
 }
 
@@ -32,6 +32,9 @@ h2 {
     padding-bottom: 80px;
     justify-content: center;
     justify-items: center;
+}
+.wrapper-col-1{
+    padding-left: 5%;
 }
 
 .title {
@@ -121,6 +124,14 @@ h2 {
     display: inline-block;
 }
 
+.genreList{
+    display: flex;
+    flex-direction: row;
+    width: 300px;
+    overflow: hidden;
+
+}
+
 @media (max-width: 1024px) {
     .container {
         padding-left: 15px;
@@ -130,6 +141,9 @@ h2 {
     .wrapper {
         grid-template-columns: 250px 1fr 150px;
         grid-gap: 30px;
+    }
+    .wrapper-col-1{
+        padding-left: 0%;
     }
 }
 
@@ -145,18 +159,32 @@ h2 {
         grid-row: 1 / 3;
         grid-column: 2;
     }
+    .wrapper-col-1{
+        padding-left: 0%;
+    }
 }
 
 @media (max-width: 590px) {
     .wrapper {
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         max-width: 100%;
     }
+    .wrapper-col-1{
+        padding-left: 0%;
+    }
+    .genreList{
+        display: flex;
+        flex-direction: column;
+        width: 100px;
+        position: relative;
+        overflow: hidden;
+    }
 
-    .wrapper-col-3 {
+   /* .wrapper-col-3 {
         grid-row: unset;
         grid-column: 1;
-    }
+    }*/
 }
 
 .listSeq {

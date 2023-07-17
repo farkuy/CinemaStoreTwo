@@ -72,6 +72,37 @@ class UserController {
         return res.json('Пользователю уже было отправленно предложение стать Администратором')
     }
 
+    async showInviteAcceptance(req, res, next) {
+        const {email} = req.query;
+        const invAdmin = await BecomeAnAdministrator.findOne({where: {email: email}});
+        if (!invAdmin) {
+            return res.json('Нет действующих приглашений стать администратором')
+        }
+        return res.json('Вас приглашают стать администратором')
+    }
+
+    async acceptTheInvitation(req, res, next) {
+        try {
+            const {email} = req.query;
+            const invAdmin = await BecomeAnAdministrator.findOne({where: {email: email}});
+            if (!invAdmin) {
+                return res.json('Нет действующих приглашений, что-то пошло не так')
+            }
+            const user = await User.findOne({where: {email: email}});
+            if (!user) {
+                return res.json('Такой пользователь не найден')
+            }
+            user.role = 'ADMIN';
+            await user.save()
+            await invAdmin.destroy();
+            await invAdmin.save();
+            return res.json('Вы стали администратором')
+        } catch (e) {
+            console.log(e)
+            throw new Error('Ошибка при повышении пользователя');
+        }
+    }
+
     async searchUser(req, res, next) {
         const {email} = req.query;
         const userList = await User.findAll({where: {

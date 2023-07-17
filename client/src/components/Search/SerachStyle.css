@@ -11,16 +11,22 @@ li {
     padding-left: 0;
 }
 
+.rel{
+    position: relative;
+    width: 200%;
+}
+
 .container {
     position: absolute;
     top: 60%;
-    left: 49.5%;
+    right: -71%;
+    padding-right: 80px;
     transform: translateX(-50%);
     z-index: 9999;
-    width: 20%;
 }
 
 .parent {
+    z-index: 9999;
     padding: 0;
     background: #fff;
     border-radius: 15px;
@@ -34,6 +40,7 @@ li {
     padding: 10px 10px;
     list-style: none;
     border-radius: 15px;
+    z-index: 9999;
 }
 .child:hover {
     background-color: #ffd54f;

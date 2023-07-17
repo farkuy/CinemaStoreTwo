@@ -14,7 +14,6 @@ const ContentPage = () => {
          getMovieById.getFilmInfo(id)
             .then(data => {
                 setFilmInfo(data)
-                console.log(data)
             })
     }, [id])
 
@@ -23,7 +22,6 @@ const ContentPage = () => {
             getMovieById.getSequelPrequel(filmInfo.kinopoiskId)
                 .then(data => {
                     setSequelPrequelList(data);
-                    console.log(data)
                 })
         }
 
@@ -56,7 +54,7 @@ const ContentPage = () => {
                         </li>
                         <li>
                             <span className="text-muted">Жанр</span>
-                            <div style={{display: "flex", flexDirection: "row"}}>
+                            <div className={'genreList'}>
                                 {filmInfo.genres && filmInfo.genres.map((c, index) => <div style={{marginRight: 5}} key={index}>{c.genre}</div>)}
                             </div>
 
@@ -79,7 +77,6 @@ const ContentPage = () => {
 
             </div>
 
-            <h2 style={{paddingLeft: 10}}>Сиквелы, прикветы, ремейки</h2>
             <div className={'listSeq'}>
                 {
                     sequelPrequelList && sequelPrequelList.map((content, index) => {

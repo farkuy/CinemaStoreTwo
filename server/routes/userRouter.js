@@ -7,7 +7,11 @@ router.post('/registration', userController.registration);
 router.post('/login', userController.login);
 router.get('/auth', authMiddleware, userController.check);
 router.get('/searchUser', authMiddleware, userController.searchUser);
-router.post('/requestAddNewAdmin', userController.requestAddNewAdmin)
+router.post('/requestAddNewAdmin', userController.requestAddNewAdmin);
+router.get('/showInviteAcceptance', authMiddleware, userController.showInviteAcceptance);
+router.get('/acceptTheInvitation', authMiddleware, userController.acceptTheInvitation);
+
+
 
 
 module.exports = router

@@ -1,11 +1,11 @@
 import {BrowserRouter} from "react-router-dom";
 import AppRouter from "./Routes/AppRouter";
-import NavBar from "./components/NavBar/NavBar";
 import {useContext, useEffect, useState} from "react";
 import {Context} from "./index";
 import {CircularProgress} from "@mui/material";
 import {check} from "./http/userApi";
 import './/Styles/App.css';
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
     const {user} = useContext(Context);

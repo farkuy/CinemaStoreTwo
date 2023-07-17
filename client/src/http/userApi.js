@@ -23,6 +23,20 @@ export const requestAddNewAdmin = async (id) => {
     return data;
 }
 
+export const showInviteAcceptance = async (email) => {
+    const {data} = await $authHost.get('api/user/showInviteAcceptance', {
+        params: { email },
+    });
+    return data
+}
+
+export const acceptInvitation = async (email) => {
+    const {data} = await $authHost.get('api/user/acceptTheInvitation', {
+        params: { email },
+    });
+    return data
+}
+
 export const check = async (email) => {
     const token = localStorage.getItem('token');
     const name = localStorage.getItem('userEmail')

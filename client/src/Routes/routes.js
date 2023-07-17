@@ -3,7 +3,7 @@ import {
     BASKET_ROUTE,
     CINEMA_ROUTE, CONTENT_PAGE_ROUTE,
     CONTENT_ROUTE, FILM_SELECTION_ROUTE, GENRE_FILMS_SELECTION_ROUTE,
-    LOGIN_ROUTE,
+    LOGIN_ROUTE, PROFILE_ROUTE,
     REGISTRATION_ROUTE, SEARCH_LIST_ROUTE, YEAR_FILMS_SELECTION_ROUTE,
 } from "./consts";
 
@@ -13,6 +13,7 @@ import Auth from "../pages/Auth/Auth";
 import Cinema from "../pages/Cinema";
 import ContentPage from "../components/ContentPage/ContentPage";
 import SearchList from "../components/SearchList/SearchList";
+import UserProfile from "../components/UserProfile/UserProfile";
 
 export const authRoutes = [
     {
@@ -23,6 +24,10 @@ export const authRoutes = [
         path: BASKET_ROUTE,
         Component: <Basket/>
     },
+    {
+        path: `${PROFILE_ROUTE}/:id`,
+        Component: <UserProfile/>
+    }
 ];
 
 export const publicRoutes = [

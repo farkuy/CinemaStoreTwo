@@ -83,20 +83,24 @@ const SearchCustom  = () => {
             </div>
             {
                 contentList.length > 0
-                    ?  <div style={{visibility: `${visibleList}`}} className={'container'}>
-                        <ul
-                            className={'parent'}
-                        >
-                            {contentList.map((content, index) => {
-                                return <li
-                                    onClick={getSearchList}
-                                    className={'child'}
-                                >
-                                    {content.nameRu}
-                                </li >
-                            })}
-                        </ul>
+                    ?
+                    <div className={'rel'}>
+                        <div style={{visibility: `${visibleList}`}} className={'container'}>
+                            <ul
+                                className={'parent'}
+                            >
+                                {contentList.map((content, index) => {
+                                    return <li
+                                        onClick={getSearchList}
+                                        className={'child'}
+                                    >
+                                        {content.nameRu}
+                                    </li >
+                                })}
+                            </ul>
+                        </div>
                     </div>
+
                     : <div></div>
 
             }
