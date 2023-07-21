@@ -5,6 +5,7 @@ import './ContentBoxStyle.css';
 import {useNavigate} from "react-router-dom";
 import {CONTENT_ROUTE} from "../../Routes/consts";
 import {addContentBasket, deleteContentBasket} from "../../http/basketApi";
+import {StandardContentInfoAboutKinopoiskId, standardContentInfoAboutKinopoiskId} from "../../utils/class";
 const ContentBox = ({info, removeContent}) => {
     const [genres, setGenres] = useState('');
     const infoStandard = convertToObjectFromAPISource(info);
@@ -13,7 +14,6 @@ const ContentBox = ({info, removeContent}) => {
 
     useEffect( () => {
         let g = ``;
-        console.log(infoStandard)
         if(infoStandard.genres) {
             for (let i of infoStandard.genres) {
                 g += i.genre + ` `
@@ -49,10 +49,20 @@ const ContentBox = ({info, removeContent}) => {
 
         console.log(info)
         const userId = localStorage.getItem('userId')
-        await addContentBasket(Number(userId), info.filmId, info)
-            .then(data => {
-                console.log(data)
-            })
+        if (info.filmId) {
+            await addContentBasket(Number(userId), info.filmId, info)
+                .then(data => {
+                    console.log(data)
+                })
+        } if(info.kinopoiskId) {
+            const inf = new StandardContentInfoAboutKinopoiskId(info);
+            console.log(inf)
+            await addContentBasket(Number(userId), inf.filmId, inf)
+                .then(data => {
+                    console.log(data)
+                })
+        }
+
     }
 
     const deleteContent = async (e) => {

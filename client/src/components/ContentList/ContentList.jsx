@@ -17,16 +17,29 @@ const ContentList = () => {
     const paginationElement = useRef();
 
     useEffect(() => {
+        let merged = [].concat.apply([], getApiInfo);
+        console.log(merged)
         let maineUrlEnd = window.location.href;
         maineUrlEnd = maineUrlEnd.split('/');
         maineUrlEnd = `/${maineUrlEnd[maineUrlEnd.length - 1]}`
-        getApiInfo.forEach((obj, index) => {
+        merged.forEach((obj, index) => {
             if(obj.url === maineUrlEnd) {
+                console.log(obj)
                 obj.getApi(page)
                     .then(data => {
-                        setContentList([...contentList, ...data.films])
-                        setFilterConentList([...contentList, ...data.films])
-                        setLoad(false)
+                        if (data.films) {
+                            setContentList([...contentList, ...data.films])
+                            setFilterConentList([...contentList, ...data.films])
+                            setLoad(false)
+                        }
+                        else {
+                            const film = data.items.filter((film) => {
+                                if(film.type === "FILM") return film
+                            })
+                            setContentList([...contentList, ...film])
+                            setFilterConentList([...contentList, ...film])
+                            setLoad(false)
+                        }
                     })
             }
         })

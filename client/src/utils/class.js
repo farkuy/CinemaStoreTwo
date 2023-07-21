@@ -43,3 +43,20 @@ export class standardContentInfo {
         return this._posterUrlPreview
     }
 }
+export class StandardContentInfoAboutKinopoiskId {
+    constructor(obj) {
+        this.nameRu = obj.nameRu;
+        this.nameEn = obj.nameOriginal;
+        this.genres = obj.genres;
+        this.filmId = obj.kinopoiskId;
+        this.filmLength = '';
+        this.rating = 0;
+        this.ratingVoteCount = 0;
+        this.ratingKinopoisk = obj.ratingKinopoisk;
+        this.year = obj.year;
+        this.countries = obj.countries;
+        this.type = obj.type;
+        this.posterUrl = obj.posterUrl;
+        this.posterUrlPreview = obj.posterUrlPreview;
+    }
+}

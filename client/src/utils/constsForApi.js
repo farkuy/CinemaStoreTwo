@@ -5,4 +5,5 @@ export const top100PopularFilms = 'https://kinopoiskapiunofficial.tech/api/v2.2/
 export const mostAnticipatedMovies = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/top?type=TOP_AWAIT_FILMS&page='
 
 export const allGenresAndCountry = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/filters'
-export const getFilmById = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/'
+export const getFilmById = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/';
+export const getYearAndGenre  = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/filters'

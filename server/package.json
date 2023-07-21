@@ -19,6 +19,7 @@
     "nodemon": "^2.0.22",
     "pg": "^8.11.1",
     "pg-hstore": "^2.3.4",
+    "react-swipeable-views": "^0.14.0",
     "sequelize": "^6.32.0",
     "uuid": "^9.0.0"
   },

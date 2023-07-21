@@ -1,0 +1,30 @@
+.maineCenter{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.imgCard {
+    width: 150px;
+    height: 150px;
+    position: relative;
+    border: 1px solid lightslategrey;
+}
+
+.imgCard__title{
+    overflow: hidden;
+    position: relative;
+    height: 2px;
+}
+.imgCard__title:after {
+    content: "";
+    text-align: right;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 70%;
+    height: 1.2em;
+    background: linear-gradient(to right, rgba(255, 255, 255, 0), white 100%);
+    pointer-events: none;
+}

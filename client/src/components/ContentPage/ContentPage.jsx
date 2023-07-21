@@ -1,19 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import './ContentPageStyle.css'
 import {useParams} from "react-router-dom";
-import {getMovieById} from "../../http/kinopoiskApi";
+import {getMovieById, getRelatedMovies} from "../../http/kinopoiskApi";
 import {еimerEqualizer} from "../../utils/function";
 import SequilBox from "../SequileBox/SequilBox";
+import ImgSlider from "../ImgSlider/ImgSlider";
 const ContentPage = () => {
 
     const {id} = useParams();
     const [filmInfo, setFilmInfo] = useState({});
     const [sequelPrequelList, setSequelPrequelList] = useState([])
+    const [relatedMovies, setRelatedMovies] = useState([])
 
     useEffect(  () => {
          getMovieById.getFilmInfo(id)
             .then(data => {
-                setFilmInfo(data)
+                setFilmInfo(data);
             })
     }, [id])
 
@@ -22,6 +24,11 @@ const ContentPage = () => {
             getMovieById.getSequelPrequel(filmInfo.kinopoiskId)
                 .then(data => {
                     setSequelPrequelList(data);
+                })
+            getRelatedMovies.getRelatedMovies(filmInfo.kinopoiskId)
+                .then(data => {
+                    console.log(data);
+                    setRelatedMovies(data.items)
                 })
         }
 
@@ -84,6 +91,7 @@ const ContentPage = () => {
                     })
                 }
             </div>
+            <ImgSlider relatedMovies={relatedMovies}/>
         </div>
 
     );

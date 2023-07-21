@@ -25,6 +25,7 @@ const SelectionCategoreNavigation = ({}) => {
             >
                 {
                     cinemaInfo.map((item, index) => {
+                        console.log(item)
                         return <Tab onClick={() => history(item.route)} label={item.name}></Tab>
                     })
                 }

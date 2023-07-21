@@ -19,9 +19,10 @@ const AppRouter = () => {
             if (path.selectionList) {
                 const routes = path.selectionList.map(pat => `${maineUrl}${CONTENT_LIST_ROUTE}${pat.route}`);
                 return routes;
-            } else return
+            }
         });
-        setContentListRoute(...updatedContentInfo);
+        let merged = [].concat.apply([], updatedContentInfo);
+        setContentListRoute([...merged]);
     }, []);
 
     return (

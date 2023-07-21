@@ -1,6 +1,6 @@
 import {
     allGenresAndCountry,
-    getFilmById,
+    getFilmById, getYearAndGenre,
     mostAnticipatedMovies,
     top100PopularFilms,
     top250Films
@@ -19,7 +19,6 @@ class KinopoiskApiInfo {
                 'X-API-KEY': apiKey
             }
         })
-
         const resp = await response.json();
         return resp;
     }
@@ -31,10 +30,31 @@ class KinopoiskApiInfo {
                 'X-API-KEY': apiKey
             }
         })
-
         const resp = await response.json();
         return resp;
     }
+
+    async getMovieByGenre(idGenre, page) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films?genres=${idGenre}&order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000&page=${page}`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
+    async getRelatedMovies(id) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/similars`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
+
 
     async getFilmInfo(id) {
         const trueId = id.slice(1)
@@ -44,7 +64,6 @@ class KinopoiskApiInfo {
                 'X-API-KEY': apiKey
             }
         })
-
         const resp = await response.json();
         return resp;
     }
@@ -56,7 +75,6 @@ class KinopoiskApiInfo {
                 'X-API-KEY': apiKey
             }
         })
-
         const resp = await response.json();
         return resp;
     }
@@ -68,7 +86,6 @@ class KinopoiskApiInfo {
                 'X-API-KEY': apiKey
             }
         })
-
         const resp = await response.json();
         return resp;
     }
@@ -79,7 +96,6 @@ class KinopoiskApiInfo {
                 'X-API-KEY': apiKey
             }
         })
-
         const resp = await response.json();
         return resp;
     }
@@ -90,7 +106,6 @@ class KinopoiskApiInfo {
                 'X-API-KEY': apiKey
             }
         })
-
         const resp = await response.json();
         return resp;
     }
@@ -101,6 +116,11 @@ export const getTop100PopularFilms = new KinopoiskApiInfo(top100PopularFilms, ap
 export const getMostAnticipatedMovies = new KinopoiskApiInfo(mostAnticipatedMovies, apiKey);
 export const getMovieById = new KinopoiskApiInfo(getFilmById, apiKey);
 export const maineInfoAboutContent = new KinopoiskApiInfo(allGenresAndCountry, apiKey);
-export const getСontentByTitle = new KinopoiskApiInfo(``, apiKey)
+export const getСontentByTitle = new KinopoiskApiInfo(``, apiKey);
+export const getGenre = new KinopoiskApiInfo(getYearAndGenre, apiKey);
+export const getMovieByGenre = new KinopoiskApiInfo();
+export const getRelatedMovies = new KinopoiskApiInfo();
+
+
 
 
