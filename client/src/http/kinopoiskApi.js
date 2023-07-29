@@ -89,6 +89,16 @@ class KinopoiskApiInfo {
         const resp = await response.json();
         return resp;
     }
+    async getReleaseDateMovies(ageFrom, ageTo, page) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=${ageFrom}&yearTo=${ageTo}&page=${page}`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
     async getСontentByTitle(name, page) {
         const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=1000&yearTo=3000&keyword=${name}&page=${page}`, {
             headers: {
@@ -109,6 +119,17 @@ class KinopoiskApiInfo {
         const resp = await response.json();
         return resp;
     }
+
+    async getReviews(id, page) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/reviews?page=${page}&order=DATE_DESC`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
 }
 
 export const getTop250Movies = new KinopoiskApiInfo(top250Films, apiKey);
@@ -120,7 +141,8 @@ export const getСontentByTitle = new KinopoiskApiInfo(``, apiKey);
 export const getGenre = new KinopoiskApiInfo(getYearAndGenre, apiKey);
 export const getMovieByGenre = new KinopoiskApiInfo();
 export const getRelatedMovies = new KinopoiskApiInfo();
-
+export const getReleaseDateMovies = new KinopoiskApiInfo()
+export const getReviews = new KinopoiskApiInfo();
 
 
 

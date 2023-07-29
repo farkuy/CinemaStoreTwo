@@ -9,29 +9,40 @@ import {
 } from "@mui/material";
 import Box from "@mui/material/Box";
 import './ImgSliderStyle.css'
+import {useNavigate} from "react-router-dom";
+import {CONTENT_ROUTE} from "../../Routes/consts";
 
 const ImgSlider = ({ relatedMovies }) => {
     const [infoArr, setInfoArr] = useState([]);
     const [value, setValue] = React.useState(0);
+    const history = useNavigate();
 
     useEffect(() => {
         let related = relatedMovies.map((movie) => {
             return {
                 label: movie.nameRu,
                 imgPath: movie.posterUrl,
+                filmId: movie.filmId,
             };
         });
         setInfoArr(related);
     }, [relatedMovies]);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const relatedMoviesNavigate = (e, content) => {
+        e.preventDefault();
+        window.scroll(0, 0)
+        history(`${CONTENT_ROUTE}/:${content.filmId}`)
+    }
 
     return (
         <div className={'maineCenter'}>
             {
                 infoArr.length > 0
-                    ?  <Box sx={{ width: '80%', bgcolor: 'background.paper' }}>
+                    ?  <Box sx={{ width: '79%', bgcolor: 'background.paper' }}>
                         <Tabs
                             value={value}
                             onChange={handleChange}
@@ -40,8 +51,11 @@ const ImgSlider = ({ relatedMovies }) => {
                             aria-label="scrollable auto tabs example"
                         >
                             {infoArr.map((inf, index) => (
-                                <div>
-                                    <Card className={`imgCard`}>
+                                <div
+                                >
+                                    <Card className={`imgCard`}
+                                          onClick={(e) => relatedMoviesNavigate(e, inf)}
+                                    >
                                         <CardActionArea>
                                             <CardMedia
                                                 className={"imageContent"}
@@ -51,7 +65,8 @@ const ImgSlider = ({ relatedMovies }) => {
                                             />
                                         </CardActionArea>
                                     </Card>
-                                    <Tab key={index} label={inf.label}>
+                                    <Tab
+                                        key={index} label={inf.label}>
                                     </Tab>
                                 </div>
                             ))}

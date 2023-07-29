@@ -8,6 +8,20 @@ const User = sequelize.define('user', {
     role: {type: DataTypes.STRING, defaultValue: "USER"},
 });
 
+
+const GrroupBB = sequelize.define('grpss', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    adminId: { type: DataTypes.INTEGER, primaryKey: false, autoIncrement: false },
+    users: { type: DataTypes.ARRAY(DataTypes.JSONB), defaultValue: [] },
+    groupName: {type: DataTypes.STRING, unique: true},
+})
+
+const InviteToAGroups = sequelize.define('inviteToAGroupps', {
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    email: {type: DataTypes.STRING},
+    groupName: {type: DataTypes.STRING},
+})
+
 const BecomeAnAdministrator = sequelize.define('becomeAnAdministrator', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     email: {type: DataTypes.STRING, unique: true,},
@@ -21,6 +35,15 @@ const Basket = sequelize.define('basket', {
 const BasketContent = sequelize.define('basket_content', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 });
+
+const ReviewWwSW = sequelize.define('reviewWwSW', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    text: { type: DataTypes.STRING },
+    filmId: {type: DataTypes.INTEGER},
+    userId: {type: DataTypes.INTEGER},
+    userName: { type: DataTypes.STRING },
+    appraisal: { type: DataTypes.STRING},
+})
 
 const Content = sequelize.define('content', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: false },
@@ -82,6 +105,15 @@ const GenreMovieStudio = sequelize.define('genre_movie_studio', {
 User.hasOne(Basket);
 Basket.belongsTo(User);
 
+User.hasMany(GrroupBB);
+GrroupBB.belongsTo(User);
+
+User.hasMany(ReviewWwSW);
+ReviewWwSW.belongsTo(User);
+
+User.hasMany(InviteToAGroups, {as: 'info'});
+InviteToAGroups.belongsTo(User);
+
 User.hasMany(Rating);
 Rating.belongsTo(User);
 
@@ -108,6 +140,9 @@ MovieStudio.belongsToMany(Genre, {through: GenreMovieStudio});
 
 module.exports = {
     User,
+    GrroupBB,
+    ReviewWwSW,
+    InviteToAGroups,
     Basket,
     BasketContent,
     Content,

@@ -16,14 +16,12 @@ const SelectionContentList = () => {
         let checkUrlEnd = url.split('/');
         checkUrlEnd = checkUrlEnd[checkUrlEnd.length - 1];
 
-        console.log(contentInfo)
        contentInfo.forEach((content, index) => {
             let checkUrlEndContent = content.route.split('/');
             checkUrlEndContent = checkUrlEndContent[checkUrlEndContent.length - 1];
             if (checkUrlEndContent === checkUrlEnd) {
                 setUrl(checkUrlEndContent);
                 setCompilation(content.selectionList);
-                console.log(content.selectionList)
             }
         })
     }, [window.location.href])

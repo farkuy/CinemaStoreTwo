@@ -1,8 +1,9 @@
 import React, {useMemo, useState} from 'react';
 import Box from "@mui/material/Box";
 import {Button, Card, CardContent, Typography} from "@mui/material";
-import {requestAddNewAdmin} from "../../../http/userApi";
+import {inviteToAGroup, requestAddNewAdmin} from "../../../http/userApi";
 import SnackbarMessage from "../../SnackbarMessages/SnackbarMessage";
+import jwt_decode from "jwt-decode";
 const bull = (
     <Box
         component="span"
@@ -27,12 +28,29 @@ const UserSearchBox = ({user}) => {
 
     const addNewAdmin = async (e) => {
         e.preventDefault();
-        const id = user.id
+        const id = user.id;
         await requestAddNewAdmin(id)
             .then(data => {
                 setInfoMessage(data)
                 setOpenWindow(true);
             })
+    }
+
+    const invite = async (e) => {
+        e.preventDefault();
+        const userName = user.email;
+        const userId = user.id
+        console.log(userId)
+        let profile = localStorage.getItem('token');
+        if (profile) {
+            profile = jwt_decode(profile);
+            const adminId = profile.id
+            await inviteToAGroup(adminId, `тры`, userName)
+                .then(data => {
+                    setInfoMessage(data)
+                    setOpenWindow(true);
+                })
+        }
     }
 
     const close = (x) => {
@@ -59,12 +77,18 @@ const UserSearchBox = ({user}) => {
                                 <Button
                                     onClick={addNewAdmin}
                                 >
-                                    Сделать администратором
+                                    Предложить стать администратором
                                 </Button>
                             </Typography>
                             : <div></div>
                     }
-
+                    <Typography variant="body2">
+                        <Button
+                            onClick={invite}
+                        >
+                            Пригласить в группу
+                        </Button>
+                    </Typography>
                 </CardContent>
             </Card>
             <SnackbarMessage setOpenWindow={setOpenWindow} close={close} info={infoMessage} openWindow={openWindow}/>

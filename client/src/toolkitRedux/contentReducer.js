@@ -5,24 +5,11 @@ import {
     GENRE_FILMS_SELECTION_ROUTE,
     YEAR_FILMS_SELECTION_ROUTE
 } from "../Routes/consts";
-import {getGenre} from "../http/kinopoiskApi";
-async function getGenres() {
-    let res = await getGenre.getAllGenresAndCountry();
-    res = await res.genres;
-    let genresFinish = await res.filter((genre) => {
-        if (genre.genre !== '') {
-            return true
-        } else return false
-    })
-    genresFinish = await genresFinish.map((genre) => {
-        return {
-            name: genre.genre,
-            route: `/genre${genre.id}`
-        }
-    })
-    return genresFinish
-}
+import {getGenres, getReleaseDate} from "../utils/function";
+
+
 const genres = await getGenres()
+const years = await getReleaseDate(1895)
 
 const cinemaSlice = createSlice({
     name: 'content',
@@ -31,6 +18,7 @@ const cinemaSlice = createSlice({
             {
                 name: 'Top Films',
                 route: CINEMA_ROUTE + FILM_SELECTION_ROUTE,
+                changeValue: 0,
                 selectionList: [
                     {
                         name: 'Топ 250 фильмов',
@@ -49,11 +37,14 @@ const cinemaSlice = createSlice({
             {
                 name: 'Genre',
                 route: CINEMA_ROUTE + GENRE_FILMS_SELECTION_ROUTE,
+                changeValue: 1,
                 selectionList: genres,
             },
             {
                 name: 'Year',
-                route: CINEMA_ROUTE + YEAR_FILMS_SELECTION_ROUTE
+                route: CINEMA_ROUTE + YEAR_FILMS_SELECTION_ROUTE,
+                changeValue: 2,
+                selectionList: years,
             }
         ],
 

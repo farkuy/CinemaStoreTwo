@@ -18,7 +18,6 @@ const ContentList = () => {
 
     useEffect(() => {
         let merged = [].concat.apply([], getApiInfo);
-        console.log(merged)
         let maineUrlEnd = window.location.href;
         maineUrlEnd = maineUrlEnd.split('/');
         maineUrlEnd = `/${maineUrlEnd[maineUrlEnd.length - 1]}`

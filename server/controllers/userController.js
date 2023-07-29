@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, Basket, BecomeAnAdministrator} = require('../models/models');
+const { User, Basket, BecomeAnAdministrator, InviteToAGroups, GrroupBB, ReviewWwSW} = require('../models/models');
 const {Sequelize} = require("sequelize");
 
 const generateJwt = (id, email, role) => {
@@ -54,23 +54,6 @@ class UserController {
         return res.json({ token });
     }
 
-    async requestAddNewAdmin(req, res, next) {
-        const {id} = req.body;
-        const user = await User.findOne({where: { id } })
-         if (!user) {
-             return next(ApiError.internal(`Пользователь с таким именем не найден`));
-         }
-         const invAdmin = await BecomeAnAdministrator.findOne({where: {id: user.id}})
-        if (!invAdmin) {
-            const newInvitation = await BecomeAnAdministrator.create({
-                id: user.id,
-                email: user.email,
-                role: 'ADMIN',
-            })
-            return res.json('Пользователю отправленно предложение стать Администратором')
-        }
-        return res.json('Пользователю уже было отправленно предложение стать Администратором')
-    }
 
     async showInviteAcceptance(req, res, next) {
         const {email} = req.query;
@@ -103,16 +86,136 @@ class UserController {
         }
     }
 
-    async searchUser(req, res, next) {
+    async showInviteGroup(req, res, next) {
         const {email} = req.query;
-        const userList = await User.findAll({where: {
-            email: {
-                    [Sequelize.Op.like]: `%${email}%`,
-                },}})
-        if (!userList) {
-            return next(ApiError.internal(`Пользователь с таким именем не найден`));
+        const invite = await InviteToAGroups.findAll({where: {email: email}});
+        if (!invite) {
+            return res.json('Нет действующих приглашений вступить в группу')
         }
-        return res.json(userList)
+        return res.json(invite)
+    }
+
+    async acceptTheInvitationToAGroup(req, res, next) {
+        try {
+            const { groupName, userName} = req.body;
+            const user = await User.findOne({where: {email: userName}});
+            const group = await GrroupBB.findOne({where: {groupName: groupName}});
+
+            if (!group) {
+                return res.json('Группы с таким именем не существует')
+            };
+            if (!user) {
+                return res.json('Мы не нашли такого пользователя')
+            };
+
+            const check = group.users.includes(user);
+            if (check) {
+                return res.json('Вы уже состоите в этой группе')
+            } else {
+                group.users.push(user);
+                await group.save();
+
+                const invite = await InviteToAGroups.findOne({where: {email: userName, groupName: groupName}})
+                invite.destroy();
+                invite.save();
+
+                return res.json('Вы вступили в группу')
+            }
+        } catch (e) {
+            console.log(e);
+            throw new Error('Ошибка при вступленни в группу');
+        }
+    }
+
+    async editReview(req, res, next) {
+        try {
+            const { filmId, userName, textReview, userId, appraisal } = req.body;
+
+            const user = await User.findOne({where: {email: userName}});
+            if (!user) {
+                return res.json('Мы не нашли такого пользователя')
+            };
+            const review = await ReviewWwSW.findOne({where:
+                    {
+                        filmId: filmId,
+                        userId: userId,
+                        userName: userName,
+                    }
+            })
+            if (!review) {
+                return res.json('Отзыв не был найден')
+            }
+            review.appraisal = appraisal;
+            review.text = textReview;
+            review.save()
+
+            return res.json('Ваша рецензия изменена')
+        } catch (e) {
+            console.log(e);
+            throw new Error('Ошибка при изменении отзыва');
+        }
+    }
+
+    async checkReview(req, res, next) {
+        try {
+           const { filmId, userName, userId } = req.query;
+           console.log(filmId)
+            const user = await User.findOne({where: {email: userName}});
+            if (!user) {
+                return res.json('Мы не нашли такого пользователя')
+            };
+
+            const review = await ReviewWwSW.findOne({where:
+                    {
+                        filmId: filmId,
+                        userId: userId,
+                        userName: userName,
+                    }
+            });
+
+            if (review) {
+                return res.json(review)
+            }
+            return res.json(false)
+        } catch (e) {
+            console.log(e);
+            throw new Error('Ошибка при проверке наличия комментария');
+        }
+    }
+
+    async addReview(req, res, next) {
+        try {
+            const { filmId, userName, textReview, userId, appraisal } = req.body;
+
+            const user = await User.findOne({where: {email: userName}});
+            if (!user) {
+                return res.json('Мы не нашли такого пользователя')
+            };
+
+            const review = await ReviewWwSW.findOne({where:
+                    {
+                        filmId: filmId,
+                        userId: userId,
+                        userName: userName,
+                    }
+            })
+            if (review) {
+                return res.json('Вы уже оставляли рецензию на этот фильм')
+            }
+            const newReview = await ReviewWwSW.create({
+                text: textReview,
+                filmId: filmId,
+                userId: userId,
+                userName: userName,
+                appraisal: appraisal,
+            })
+            return res.json('Ваша рецензия добавлена')
+        } catch (e) {
+            throw new Error(e);
+            console.log('Ошибка при добавлении рецензии', e)
+        }
+
+
     }
 }
 

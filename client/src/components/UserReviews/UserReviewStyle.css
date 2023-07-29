@@ -1,0 +1,22 @@
+.flex {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 5px;
+}
+
+.box {
+    width: 17%;
+}
+
+@media (max-width: 1500px) {
+    .box {
+        width: 20%;
+    }
+}
+
+@media (max-width: 850px) {
+    .box {
+        width: 40%;
+    }
+}

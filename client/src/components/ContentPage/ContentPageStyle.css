@@ -28,13 +28,11 @@ h2 {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     grid-gap: 40px;
-    padding-top: 80px;
-    padding-bottom: 80px;
     justify-content: center;
     justify-items: center;
+    padding: 80px 5% 80px 5%;
 }
 .wrapper-col-1{
-    padding-left: 5%;
 }
 
 .title {
@@ -190,7 +188,7 @@ h2 {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     justify-content: center;
-    padding: 10px;
+    padding: 0 5% 0 5%;
     position: relative;
     justify-items: center;
 

@@ -13,7 +13,6 @@ const AppRouter = () => {
     let contentInfo = useSelector(state => state.content);
 
     useEffect(() => {
-
         const updatedContentInfo = contentInfo.infoFilm.map((path, index) => {
             const maineUrl = contentInfo.infoFilm[index].route;
             if (path.selectionList) {

@@ -5,7 +5,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import {Context} from "../../index";
 import {useNavigate} from "react-router-dom";
 import jwtDecode from "jwt-decode";
-import {ADMIN_ROUTE, BASKET_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
+import {ADMIN_ROUTE, PROFILE_ROUTE, LOGIN_ROUTE, START_ROUTE} from "../../Routes/consts";
 import SearchCustom from "../Search/SearchCustom";
 import BurgerMenu from "../BurgerMenu/BurgerMenu";
 
@@ -71,9 +71,9 @@ const NavBar = () => {
                                     }
                                     <Button
                                         color="inherit"
-                                        onClick={(e) => history(BASKET_ROUTE)}
+                                        onClick={(e) => history(`${PROFILE_ROUTE}/:${user.id}`)}
                                     >
-                                        Мои фильмы
+                                        Мой профиль
                                     </Button>
                                     <Button
                                         color="inherit"

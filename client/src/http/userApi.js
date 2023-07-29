@@ -23,8 +23,25 @@ export const requestAddNewAdmin = async (id) => {
     return data;
 }
 
+export const inviteToAGroup = async (adminId, groupName, userName, userId) => {
+    const {data} = await $host.post(`api/user/inviteToAGroup`, { adminId, groupName, userName});
+    return data;
+}
+
+export const createGroup = async (adminId, groupName) => {
+    const {data} = await $host.post(`api/user/createNewGroup`, { adminId, groupName });
+    return data;
+}
+
 export const showInviteAcceptance = async (email) => {
     const {data} = await $authHost.get('api/user/showInviteAcceptance', {
+        params: { email },
+    });
+    return data
+}
+
+export const showInviteGroup = async (email) => {
+    const {data} = await $authHost.get('api/user/showInviteGroup', {
         params: { email },
     });
     return data
@@ -33,6 +50,40 @@ export const showInviteAcceptance = async (email) => {
 export const acceptInvitation = async (email) => {
     const {data} = await $authHost.get('api/user/acceptTheInvitation', {
         params: { email },
+    });
+    return data
+}
+
+export const acceptInvitationGroup = async (groupName, userName) => {
+    const {data} = await $host.post('api/user/acceptTheInvitationToAGroup', {groupName, userName});
+    return data
+}
+
+export const addReview = async (filmId, userName, textReview, userId, appraisal) => {
+    const {data} = await $host.post('api/user/addReview', {
+        filmId,
+        userName,
+        textReview,
+        userId,
+        appraisal
+    });
+    return data
+}
+
+export const editReview = async (filmId, userName, textReview, userId, appraisal) => {
+    const {data} = await $host.post('api/user/editReview', {
+        filmId,
+        userName,
+        textReview,
+        userId,
+        appraisal
+    });
+    return data
+}
+
+export const checkReview = async (filmId, userName, userId) => {
+    const {data} = await $authHost.get(`api/user/checkReview`, {
+        params: { filmId, userName, userId },
     });
     return data
 }
