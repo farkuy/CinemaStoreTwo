@@ -12,7 +12,7 @@ import './ImgSliderStyle.css'
 import {useNavigate} from "react-router-dom";
 import {CONTENT_ROUTE} from "../../Routes/consts";
 
-const ImgSlider = ({ relatedMovies }) => {
+const ImgSlider = ({ relatedMovies, setPageReviews }) => {
     const [infoArr, setInfoArr] = useState([]);
     const [value, setValue] = React.useState(0);
     const history = useNavigate();
@@ -35,6 +35,7 @@ const ImgSlider = ({ relatedMovies }) => {
     const relatedMoviesNavigate = (e, content) => {
         e.preventDefault();
         window.scroll(0, 0)
+        setPageReviews(1)
         history(`${CONTENT_ROUTE}/:${content.filmId}`)
     }
 

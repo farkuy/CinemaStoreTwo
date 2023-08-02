@@ -6,6 +6,7 @@ import {CircularProgress} from "@mui/material";
 import {check} from "./http/userApi";
 import './/Styles/App.css';
 import NavBar from "./components/NavBar/NavBar";
+import jwt_decode from "jwt-decode";
 
 function App() {
     const {user} = useContext(Context);
@@ -13,10 +14,11 @@ function App() {
 
     useEffect(() => {
         if(localStorage.getItem('token')) {
+            const profile = jwt_decode(localStorage.getItem('token'))
             const email = localStorage.getItem('userEmail');
             check(email).then(data => {
                 user.setIsAuth(true)
-                user.setUser(true)
+                user.setUser(profile)
             }).finally(() => setLoading(false))
         } else {
             user.setIsAuth(false);

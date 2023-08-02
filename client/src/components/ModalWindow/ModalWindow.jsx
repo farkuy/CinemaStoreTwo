@@ -3,7 +3,6 @@ import ContentFilter from "../contnentFilter/ContentFilter";
 import {IconButton, Modal} from "@mui/material";
 import Box from "@mui/material/Box";
 import SettingsIcon from "@mui/icons-material/Settings";
-import ArrowToTop from "../ArrowToTop/ArrowToTop";
 
 const style = {
     position: 'absolute',

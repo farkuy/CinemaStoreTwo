@@ -59,23 +59,25 @@ export const acceptInvitationGroup = async (groupName, userName) => {
     return data
 }
 
-export const addReview = async (filmId, userName, textReview, userId, appraisal) => {
+export const addReview = async (filmId, userName, textReview, userId, h1, appraisal) => {
     const {data} = await $host.post('api/user/addReview', {
         filmId,
         userName,
         textReview,
         userId,
+        h1,
         appraisal
     });
     return data
 }
 
-export const editReview = async (filmId, userName, textReview, userId, appraisal) => {
+export const editReview = async (filmId, userName, textReview, userId, h1, appraisal) => {
     const {data} = await $host.post('api/user/editReview', {
         filmId,
         userName,
         textReview,
         userId,
+        h1,
         appraisal
     });
     return data
@@ -84,6 +86,20 @@ export const editReview = async (filmId, userName, textReview, userId, appraisal
 export const checkReview = async (filmId, userName, userId) => {
     const {data} = await $authHost.get(`api/user/checkReview`, {
         params: { filmId, userName, userId },
+    });
+    return data
+}
+
+export const showAllFilmReviews = async (userId, filmId) => {
+    const {data} = await $authHost.get(`api/review/showAllFilmReview`, {
+        params: { userId, filmId },
+    });
+    return data
+}
+
+export const deleteUserReview = async (userId, filmId) => {
+    const {data} = await $authHost.delete(`api/review/deleteUserReview`, {
+        params: { userId, filmId },
     });
     return data
 }

@@ -16,11 +16,11 @@ const NavBar = () => {
     const [id, setId] = useState(-1);
 
     useEffect(() => {
-        const user = localStorage.getItem('token');
+        console.log(user)
         if (user) {
-            const roleUser = jwtDecode(user).role
+            const roleUser = user.user.role
             setRole(roleUser)
-            const id = jwtDecode(user).id;
+            const id = user.user.id;
             setId(id)
         }
     }, [])

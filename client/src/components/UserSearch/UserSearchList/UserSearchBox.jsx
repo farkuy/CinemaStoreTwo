@@ -36,6 +36,7 @@ const UserSearchBox = ({user}) => {
             })
     }
 
+    // :TODO Проверить механику создания групп и инвайта в них
     const invite = async (e) => {
         e.preventDefault();
         const userName = user.email;

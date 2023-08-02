@@ -18,6 +18,7 @@ const Auth = () => {
         try {
             if (authOrRegistration === 'logIn') {
                 const profile = await login(email, password);
+                console.log(profile)
                 user.setUser(profile)
             } else {
                 const profile = await registration(email, password);

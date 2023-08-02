@@ -4,7 +4,7 @@ import Input from '@mui/material/Input';
 import Box from '@mui/material/Box';
 import './SerachStyle.css'
 import {getСontentByTitle} from "../../http/kinopoiskApi";
-import {SEARCH_LIST_ROUTE} from "../../Routes/consts";
+import {CONTENT_ROUTE, SEARCH_LIST_ROUTE} from "../../Routes/consts";
 import {useNavigate} from "react-router-dom";
 import {useDispatch} from "react-redux";
 import {updateSearch} from "../../toolkitRedux/searchReduser";
@@ -49,6 +49,20 @@ const SearchCustom  = () => {
         history(SEARCH_LIST_ROUTE);
     }
 
+    const filmMove = (e, film) => {
+        e.stopPropagation();
+        e.preventDefault();
+
+        if (film.kinopoiskId) {
+            localStorage.removeItem('search');
+            localStorage.setItem('search', search);
+            dispatch(updateSearch(localStorage.getItem('search')));
+            history(`${CONTENT_ROUTE}/:${film.kinopoiskId}`)
+        } else {
+            alert('Такой фильм не найден')
+        }
+    }
+
     const onBlur = (e) => {
         e.preventDefault();
         setTimeout(() => {
@@ -90,13 +104,21 @@ const SearchCustom  = () => {
                                 className={'parent'}
                             >
                                 {contentList.map((content, index) => {
+                                    console.log(content)
                                     return <li
-                                        onClick={getSearchList}
+                                        onClick={(e) => filmMove(e, content)}
                                         className={'child'}
                                     >
                                         {content.nameRu}
                                     </li >
                                 })}
+                                <li
+                                    onClick={getSearchList}
+                                    style={{color: 'red'}}
+                                    className={'child'}
+                                >
+                                    Показать все оставшиеся запросы...
+                                </li>
                             </ul>
                         </div>
                     </div>

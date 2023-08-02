@@ -57,7 +57,9 @@ class KinopoiskApiInfo {
 
 
     async getFilmInfo(id) {
-        const trueId = id.slice(1)
+        let trueId;
+        if (typeof id === `string`) trueId = id.slice(1);
+        else trueId = id;
         const response = await fetch(`${this.url}${trueId}`, {
             headers: {
                 "Content-Type": `application/json`,

@@ -11,10 +11,8 @@ const Admin = () => {
     const createNewGroup = async (e) => {
         e.preventDefault();
 
-        let userInfo = localStorage.getItem('token');
-        if (userInfo) {
-            userInfo = jwt_decode(userInfo)
-            await createGroup(userInfo.id, `тры`)
+        if (user) {
+            await createGroup(user.id, `тры`)
                 .then(data => {
                     console.log(data)
                 })

@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, Basket, BecomeAnAdministrator, InviteToAGroups, GrroupBB, ReviewWwSW} = require('../models/models');
+const { User, Basket, BecomeAnAdministrator, InviteToAGroups, GrroupBB, Review} = require('../models/models');
 const {Sequelize} = require("sequelize");
 
 const generateJwt = (id, email, role) => {
@@ -129,13 +129,13 @@ class UserController {
 
     async editReview(req, res, next) {
         try {
-            const { filmId, userName, textReview, userId, appraisal } = req.body;
+            const { filmId, userName, textReview, userId, h1,  appraisal } = req.body;
 
             const user = await User.findOne({where: {email: userName}});
             if (!user) {
                 return res.json('Мы не нашли такого пользователя')
             };
-            const review = await ReviewWwSW.findOne({where:
+            const review = await Review.findOne({where:
                     {
                         filmId: filmId,
                         userId: userId,
@@ -146,6 +146,7 @@ class UserController {
                 return res.json('Отзыв не был найден')
             }
             review.appraisal = appraisal;
+            review.h1 = h1;
             review.text = textReview;
             review.save()
 
@@ -165,7 +166,7 @@ class UserController {
                 return res.json('Мы не нашли такого пользователя')
             };
 
-            const review = await ReviewWwSW.findOne({where:
+            const review = await Review.findOne({where:
                     {
                         filmId: filmId,
                         userId: userId,
@@ -185,14 +186,14 @@ class UserController {
 
     async addReview(req, res, next) {
         try {
-            const { filmId, userName, textReview, userId, appraisal } = req.body;
+            const { filmId, userName, textReview, userId, h1, appraisal } = req.body;
 
             const user = await User.findOne({where: {email: userName}});
             if (!user) {
                 return res.json('Мы не нашли такого пользователя')
             };
 
-            const review = await ReviewWwSW.findOne({where:
+            const review = await Review.findOne({where:
                     {
                         filmId: filmId,
                         userId: userId,
@@ -202,21 +203,20 @@ class UserController {
             if (review) {
                 return res.json('Вы уже оставляли рецензию на этот фильм')
             }
-            const newReview = await ReviewWwSW.create({
+            const newReview = await Review.create({
                 text: textReview,
                 filmId: filmId,
                 userId: userId,
                 userName: userName,
                 appraisal: appraisal,
+                h1: h1,
             })
             return res.json('Ваша рецензия добавлена')
         } catch (e) {
             throw new Error(e);
             console.log('Ошибка при добавлении рецензии', e)
         }
-
-
-    }
+    };
 }
 
 module.exports = new UserController();

@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { User, BecomeAnAdministrator, InviteToAGroups, GrroupB, GrroupBB} = require('../models/models');
+const { User, BecomeAnAdministrator, InviteToAGroups, GrroupBB} = require('../models/models');
 const {Sequelize} = require("sequelize");
 
 const generateJwt = (id, email, role) => {

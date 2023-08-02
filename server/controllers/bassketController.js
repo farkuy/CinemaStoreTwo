@@ -72,6 +72,9 @@ class BasketController {
                     arrInfo.push(contentInfo);
                 }
             }
+            arrInfo.sort((a, b) => {
+                return new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+            })
             return res.json(arrInfo);
         } catch (error) {
             return res.json({ error });

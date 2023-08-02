@@ -36,13 +36,14 @@ const BasketContent = sequelize.define('basket_content', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
 });
 
-const ReviewWwSW = sequelize.define('reviewWwSW', {
+const Review = sequelize.define('review', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     text: { type: DataTypes.STRING },
     filmId: {type: DataTypes.INTEGER},
     userId: {type: DataTypes.INTEGER},
     userName: { type: DataTypes.STRING },
     appraisal: { type: DataTypes.STRING},
+    h1: { type: DataTypes.STRING }
 })
 
 const Content = sequelize.define('content', {
@@ -108,8 +109,8 @@ Basket.belongsTo(User);
 User.hasMany(GrroupBB);
 GrroupBB.belongsTo(User);
 
-User.hasMany(ReviewWwSW);
-ReviewWwSW.belongsTo(User);
+User.hasMany(Review);
+Review.belongsTo(User);
 
 User.hasMany(InviteToAGroups, {as: 'info'});
 InviteToAGroups.belongsTo(User);
@@ -141,7 +142,7 @@ MovieStudio.belongsToMany(Genre, {through: GenreMovieStudio});
 module.exports = {
     User,
     GrroupBB,
-    ReviewWwSW,
+    Review,
     InviteToAGroups,
     Basket,
     BasketContent,

@@ -23,7 +23,6 @@ import jwtDecode from "jwt-decode";
 
 
 const BurgerMenu = () => {
-
     const {user} = useContext(Context);
     const [role, setRole] = useState('');
     const [id, setId] = useState(-1);

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import './ContentPageStyle.css'
 import {useParams} from "react-router-dom";
 import {getMovieById, getRelatedMovies, getReviews} from "../../http/kinopoiskApi";
@@ -11,6 +11,8 @@ import VideoList from "../VideoList/VideoList";
 import MaineInfo from "./MaineInfo";
 import Box from "@mui/material/Box";
 import UserReview from "../UserReviews/UserReview";
+import {showAllFilmReviews} from "../../http/userApi";
+import {Context} from "../../index";
 
 const style = {
     position: 'absolute',
@@ -26,7 +28,7 @@ const style = {
 };
 
 const ContentPage = () => {
-
+    const {user} = useContext(Context);
     const {id} = useParams();
     const [filmInfo, setFilmInfo] = useState({});
     const [sequelPrequelList, setSequelPrequelList] = useState([]);
@@ -35,6 +37,7 @@ const ContentPage = () => {
     const [reviewsList, setReviews] = useState([]);
     const [reviewsInfo, setReviewsInfo] = useState({});
     const [pageReviews, setPageReviews] = useState(1);
+    const [updateReviewList, setUpdateReviewList] = useState(0)
 
 
     useEffect(  () => {
@@ -45,6 +48,7 @@ const ContentPage = () => {
     }, [id])
 
     useEffect(() => {
+        console.log(filmInfo.kinopoiskId)
         if(filmInfo.kinopoiskId) {
             getMovieById.getSequelPrequel(filmInfo.kinopoiskId)
                 .then(data => {
@@ -69,22 +73,27 @@ const ContentPage = () => {
             getReviews.getReviews(filmInfo.kinopoiskId, pageReviews)
                 .then(data => {
                     setReviewsInfo(data)
-                    if (data.items.length !== 0) {
+                    if (data.items.length !== 0 && pageReviews !== 1) {
                         setReviews([...reviewsList, ...data.items])
+                    } else if (data.items.length !== 0 && pageReviews === 1) {
+                        setReviews([...data.items])
                     }
                 })
         }
 
-    }, [filmInfo, pageReviews])
+    }, [filmInfo, pageReviews, updateReviewList])
 
     const upPage = (x) => {
         setPageReviews(x)
     }
 
+    const reloadReviewList = () => {
+        setUpdateReviewList(updateReviewList + 1)
+    }
+
     return (
         <div>
             <MaineInfo filmInfo={filmInfo}/>
-
             <div className={'listSeq'}>
                 {
                     finishSequelPrequelList && finishSequelPrequelList.map((content, index) => {
@@ -106,10 +115,12 @@ const ContentPage = () => {
                 : <div></div>
             }
 
-            <ImgSlider relatedMovies={relatedMovies}/>
+            <ImgSlider setPageReviews={setPageReviews} relatedMovies={relatedMovies}/>
 
-            <Reviews upPage={upPage} page={pageReviews} reviewsList={reviewsList}/>
-            <UserReview filmInfo={filmInfo}/>
+
+            <Reviews reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo} upPage={upPage} page={pageReviews} reviewsList={reviewsList}/>
+
+            <UserReview reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo}/>
 
             <VideoList/>
         </div>

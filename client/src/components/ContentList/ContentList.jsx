@@ -5,7 +5,6 @@ import {useSelector} from "react-redux";
 import {CircularProgress} from "@mui/material";
 import ModalWindow from "../ModalWindow/ModalWindow";
 import ArrowToTop from "../ArrowToTop/ArrowToTop";
-import {getTop250Movies} from "../../http/kinopoiskApi";
 const ContentList = () => {
 
     const getApiInfo = useSelector(state => state.compilation)
