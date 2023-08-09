@@ -6,7 +6,7 @@ import {
     top250Films
 } from "../utils/constsForApi";
 
-const apiKey = '80eb4d7c-151a-4371-8c72-3a3796eedc44';
+const apiKey = 'da54e60b-6df3-487b-99d2-a16d293f1eae';
 class KinopoiskApiInfo {
     constructor(url, key) {
         this.url = url;
@@ -132,6 +132,26 @@ class KinopoiskApiInfo {
         const resp = await response.json();
         return resp;
     }
+    async getPremiereList(year, month) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/premieres?year=${year}&month=${month}`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
+    async getReleases(year, month, page) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.1/films/releases?year=${year}&month=${month}&page=${page}`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
 }
 
 export const getTop250Movies = new KinopoiskApiInfo(top250Films, apiKey);
@@ -145,6 +165,7 @@ export const getMovieByGenre = new KinopoiskApiInfo();
 export const getRelatedMovies = new KinopoiskApiInfo();
 export const getReleaseDateMovies = new KinopoiskApiInfo()
 export const getReviews = new KinopoiskApiInfo();
+export const miscellaneousInformation = new KinopoiskApiInfo();
 
 
 

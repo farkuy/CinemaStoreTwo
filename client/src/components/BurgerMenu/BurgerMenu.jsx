@@ -12,10 +12,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import {useNavigate} from "react-router-dom";
 import {
     ADMIN_ROUTE,
-    BASKET_ROUTE,
+    BASKET_ROUTE, CARTOON_ROUTE,
     CINEMA_ROUTE,
-    FILM_SELECTION_ROUTE,
-    LOGIN_ROUTE,
+    FILM_SELECTION_ROUTE, GENRE_FILMS_SELECTION_ROUTE,
+    LOGIN_ROUTE, SERIAL_ROUTE,
     START_ROUTE
 } from "../../Routes/consts";
 import {Context} from "../../index";
@@ -35,8 +35,7 @@ const BurgerMenu = () => {
     });
     const [typeList, setTypeList] = useState([
         ['Films', CINEMA_ROUTE + FILM_SELECTION_ROUTE],
-        ['Serial', CINEMA_ROUTE + FILM_SELECTION_ROUTE],
-        ['Cartoon', CINEMA_ROUTE + FILM_SELECTION_ROUTE],
+        ['Serial', SERIAL_ROUTE + GENRE_FILMS_SELECTION_ROUTE],
     ]);
     const history = useNavigate();
 
@@ -76,7 +75,7 @@ const BurgerMenu = () => {
             const id = jwtDecode(user).id;
             setId(id)
         }
-    }, [])
+    }, [user.user.role])
 
     const list = (anchor) => (
         <Box

@@ -16,6 +16,12 @@ const GrroupBB = sequelize.define('grpss', {
     groupName: {type: DataTypes.STRING, unique: true},
 })
 
+const ContentListNames = sequelize.define('contentListNameV', {
+    routeName: {type: DataTypes.STRING},
+    typeName: {type: DataTypes.STRING},
+    listRoue: {type: DataTypes.STRING},
+})
+
 const InviteToAGroups = sequelize.define('inviteToAGroupps', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     email: {type: DataTypes.STRING},
@@ -142,6 +148,7 @@ MovieStudio.belongsToMany(Genre, {through: GenreMovieStudio});
 module.exports = {
     User,
     GrroupBB,
+    ContentListNames,
     Review,
     InviteToAGroups,
     Basket,

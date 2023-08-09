@@ -4,7 +4,7 @@ import {
     CINEMA_ROUTE, CONTENT_PAGE_ROUTE,
     CONTENT_ROUTE, FILM_SELECTION_ROUTE, GENRE_FILMS_SELECTION_ROUTE,
     LOGIN_ROUTE, PROFILE_ROUTE,
-    REGISTRATION_ROUTE, SEARCH_LIST_ROUTE, YEAR_FILMS_SELECTION_ROUTE,
+    REGISTRATION_ROUTE, SEARCH_LIST_ROUTE, SERIAL_ROUTE, YEAR_FILMS_SELECTION_ROUTE,
 } from "./consts";
 
 import Admin from "../pages/Admin";
@@ -14,6 +14,8 @@ import Cinema from "../pages/Cinema";
 import ContentPage from "../components/ContentPage/ContentPage";
 import SearchList from "../components/SearchList/SearchList";
 import UserProfile from "../components/UserProfile/UserProfile";
+import Serial from "../pages/Serial";
+import StartPage from "../pages/StartPage";
 
 export const authRoutes = [
     {
@@ -36,6 +38,10 @@ export const publicRoutes = [
         Component: <Cinema/>
     },
     {
+        path: SERIAL_ROUTE,
+        Component: <Serial/>
+    },
+    {
         path: LOGIN_ROUTE,
         Component: <Auth/>
     },
@@ -51,6 +57,10 @@ export const publicRoutes = [
         path: SEARCH_LIST_ROUTE,
         Component: <SearchList/>
     },
+    {
+        path: '*',
+        Component: <StartPage/>
+    },
 ];
 
 export const filmSelection = [
@@ -65,5 +75,16 @@ export const filmSelection = [
     {
         path: CINEMA_ROUTE +  YEAR_FILMS_SELECTION_ROUTE,
         Component: <Cinema/>
+    },
+];
+
+export const serialSelection = [
+    {
+        path: SERIAL_ROUTE +  GENRE_FILMS_SELECTION_ROUTE,
+        Component: <Serial/>
+    },
+    {
+        path: SERIAL_ROUTE +  YEAR_FILMS_SELECTION_ROUTE,
+        Component: <Serial/>
     },
 ];

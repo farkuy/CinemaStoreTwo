@@ -22,7 +22,6 @@ const ContentList = () => {
         maineUrlEnd = `/${maineUrlEnd[maineUrlEnd.length - 1]}`
         merged.forEach((obj, index) => {
             if(obj.url === maineUrlEnd) {
-                console.log(obj)
                 obj.getApi(page)
                     .then(data => {
                         if (data.films) {
@@ -31,12 +30,26 @@ const ContentList = () => {
                             setLoad(false)
                         }
                         else {
-                            const film = data.items.filter((film) => {
-                                if(film.type === "FILM") return film
-                            })
-                            setContentList([...contentList, ...film])
-                            setFilterConentList([...contentList, ...film])
-                            setLoad(false)
+                            const url = window.location.href;
+                            if (url.includes('cinema')) {
+                                const film = data.items.filter((film) => {
+                                    if(film.type === "FILM") return film
+                                })
+                                setContentList([...contentList, ...film])
+                                setFilterConentList([...contentList, ...film])
+                                setLoad(false)
+                                return
+                            }
+                            if (url.includes('serial')) {
+                                const serials = data.items.filter((serial) => {
+                                    if(serial.type === "MINI_SERIES" || serial.type === "TV_SERIES") return serial
+                                })
+                                console.log(serials)
+                                setContentList([...contentList, ...serials])
+                                setFilterConentList([...contentList, ...serials])
+                                setLoad(false)
+                                return;
+                            }
                         }
                     })
             }

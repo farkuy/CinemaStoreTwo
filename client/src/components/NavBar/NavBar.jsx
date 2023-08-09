@@ -16,17 +16,15 @@ const NavBar = () => {
     const [id, setId] = useState(-1);
 
     useEffect(() => {
-        console.log(user)
         if (user) {
             const roleUser = user.user.role
             setRole(roleUser)
             const id = user.user.id;
             setId(id)
         }
-    }, [])
+    }, [user.user.role])
     const logIn = (e) => {
         e.preventDefault();
-        user.setIsAuth(true);
         history(LOGIN_ROUTE)
     }
     const logOut = (e) => {

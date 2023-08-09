@@ -29,6 +29,7 @@ export async function getGenres() {
     })
     return genresFinish
 }
+
 export async function movieByGenre() {
     let res = await getGenre.getAllGenresAndCountry();
     res = await res.genres;
@@ -49,6 +50,7 @@ export async function movieByGenre() {
 
     return genreUrlObj;
 }
+
 
 export async function getReleaseDate(startYear) {
     let arrReleaseDate = [];
@@ -92,6 +94,7 @@ export async function getReleaseDate(startYear) {
     arrReleaseDate = arrReleaseDate.reverse();
     return arrReleaseDate
 }
+
 export async function movieReleaseDate() {
     let res = await getReleaseDate(1895);
     let arrDate = res.map((year) => {
@@ -104,3 +107,5 @@ export async function movieReleaseDate() {
     })
     return arrDate
 }
+
+

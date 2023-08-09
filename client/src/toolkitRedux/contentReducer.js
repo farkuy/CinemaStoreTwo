@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import {
     CINEMA_ROUTE,
     FILM_SELECTION_ROUTE,
-    GENRE_FILMS_SELECTION_ROUTE,
+    GENRE_FILMS_SELECTION_ROUTE, SERIAL_ROUTE,
     YEAR_FILMS_SELECTION_ROUTE
 } from "../Routes/consts";
 import {getGenres, getReleaseDate} from "../utils/function";
@@ -45,9 +45,22 @@ const cinemaSlice = createSlice({
                 route: CINEMA_ROUTE + YEAR_FILMS_SELECTION_ROUTE,
                 changeValue: 2,
                 selectionList: years,
-            }
+            },
         ],
-
+        infoSerial: [
+            {
+                name: 'Genre',
+                route: SERIAL_ROUTE + GENRE_FILMS_SELECTION_ROUTE,
+                changeValue: 0,
+                selectionList: genres,
+            },
+            {
+                name: 'Year',
+                route: SERIAL_ROUTE + YEAR_FILMS_SELECTION_ROUTE,
+                changeValue: 1,
+                selectionList: years,
+            }
+        ]
     },
     reducers: {}
 });

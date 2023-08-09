@@ -11,7 +11,7 @@ class BasketController {
             const existingContent = await Contents.findOne({ where: {id: contentId,} });
             if(existingContent) {
                 const basket = await Basket.findOne({ where: { id: userId } });
-                console.log(33)
+                console.log(2)
                 if (!basket) {
                     return next(ApiError.internal(`Пользователь с таким id не найден`));
                 }

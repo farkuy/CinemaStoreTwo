@@ -83,9 +83,27 @@ export const editReview = async (filmId, userName, textReview, userId, h1, appra
     return data
 }
 
+
 export const checkReview = async (filmId, userName, userId) => {
     const {data} = await $authHost.get(`api/user/checkReview`, {
         params: { filmId, userName, userId },
+    });
+    return data
+}
+
+export const setNameListFunc = async (route, typeName, listNames) => {
+    const {data} = await $host.post(`api/genre/setNameList`, {
+        route,
+        typeName,
+        listNames
+    });
+    return data
+}
+
+export const getNameList = async (route, typeName) => {
+    const {data} = await $host.post(`api/genre/getNameList`, {
+        route,
+        typeName,
     });
     return data
 }

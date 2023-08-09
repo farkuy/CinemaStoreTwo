@@ -120,7 +120,11 @@ const ContentPage = () => {
 
             <Reviews reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo} upPage={upPage} page={pageReviews} reviewsList={reviewsList}/>
 
-            <UserReview reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo}/>
+            {
+                user.isAuth
+                ? <UserReview reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo}/>
+                : <div></div>
+            }
 
             <VideoList/>
         </div>

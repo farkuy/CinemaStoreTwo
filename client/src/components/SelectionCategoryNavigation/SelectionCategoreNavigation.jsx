@@ -1,27 +1,74 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {Paper, Tab, Tabs} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import {useSelector} from "react-redux";
 
 const SelectionCategoreNavigation = ({}) => {
     const history = useNavigate();
-    const [value, setValue] = React.useState(0);
-    const dispatch = useDispatch();
-    const cinemaInfo = useSelector(state => state.content.infoFilm);
+    const [value, setValue] = useState(0);
+    const route = useSelector(state => state.content);
+    const [cinemaInfo, setCinemaInfo] = useState([]);
 
-
-    useEffect((newValue) => {
+    useMemo((newValue) => {
         let urlNow = window.location.href;
-        urlNow = urlNow.split('/');
-        urlNow = urlNow[urlNow.length - 1]
-        cinemaInfo.forEach((item) => {
-            let urlCheck = item.route.split('/');
-            urlCheck = urlCheck[urlCheck.length - 1];
-            if (urlCheck === urlNow) {
-                setValue(item.changeValue)
-            }
-        })
+        let check = urlNow.split('/');
+        check = check[check.length - 2]
+        if (route.infoFilm[0].route.split('/')[1] === check) {
+            urlNow = urlNow.split('/');
+            urlNow = urlNow[urlNow.length - 1]
+            setCinemaInfo(route.infoFilm)
+            cinemaInfo.forEach((item) => {
+                let urlCheck = item.route.split('/');
+                urlCheck = urlCheck[urlCheck.length - 1];
+                if (urlCheck === urlNow) {
+                    setValue(item.changeValue)
+                }
+            })
+        }
+        if (route.infoSerial[0].route.split('/')[1] === check) {
+            urlNow = urlNow.split('/');
+            urlNow = urlNow[urlNow.length - 1]
+            setCinemaInfo(route.infoSerial)
+            cinemaInfo.forEach((item) => {
+                let urlCheck = item.route.split('/');
+                urlCheck = urlCheck[urlCheck.length - 1];
+                if (urlCheck === urlNow) {
+                    setValue(item.changeValue)
+                }
+            })
+        }
     }, [window.location.href])
+
+    useEffect(() => {
+        let urlNow = window.location.href;
+        let check = urlNow.split('/');
+        check = check[check.length - 2]
+        if (route.infoFilm[0].route.split('/')[1] === check) {
+            urlNow = urlNow.split('/');
+            urlNow = urlNow[urlNow.length - 1]
+            setCinemaInfo(route.infoFilm)
+            cinemaInfo.forEach((item) => {
+                let urlCheck = item.route.split('/');
+                urlCheck = urlCheck[urlCheck.length - 1];
+                if (urlCheck === urlNow) {
+                    setValue(item.changeValue)
+                }
+            })
+        }
+        if (route.infoSerial[0].route.split('/')[1] === check) {
+            urlNow = urlNow.split('/');
+            urlNow = urlNow[urlNow.length - 1]
+            setCinemaInfo(route.infoSerial)
+            cinemaInfo.forEach((item) => {
+                let urlCheck = item.route.split('/');
+                urlCheck = urlCheck[urlCheck.length - 1];
+                if (urlCheck === urlNow) {
+                    setValue(item.changeValue)
+                }
+            })
+        }
+    }, [])
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };

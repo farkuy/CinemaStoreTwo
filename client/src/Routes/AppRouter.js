@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {Route, Routes} from "react-router-dom";
-import {authRoutes, filmSelection, publicRoutes} from "./routes";
+import {authRoutes, filmSelection, publicRoutes, serialSelection} from "./routes";
 import {Context} from "../index";
 import StartPage from "../pages/StartPage";
 import {useSelector} from "react-redux";
@@ -20,7 +20,15 @@ const AppRouter = () => {
                 return routes;
             }
         });
-        let merged = [].concat.apply([], updatedContentInfo);
+        const updatedContentInfoSerial = contentInfo.infoSerial.map((path, index) => {
+            const maineUrl = contentInfo.infoSerial[index].route;
+            if (path.selectionList) {
+                const routes = path.selectionList.map(pat => `${maineUrl}${CONTENT_LIST_ROUTE}${pat.route}`);
+                return routes;
+            }
+        });
+        const finallyArr = [...updatedContentInfo, ...updatedContentInfoSerial]
+        let merged = [].concat.apply([], finallyArr);
         setContentListRoute([...merged]);
     }, []);
 
@@ -42,13 +50,17 @@ const AppRouter = () => {
                 })
             }
             {
+                serialSelection.map(({path, Component}) => {
+                    return <Route key={path} path={path} element={Component}/>
+                })
+            }
+            {
                 contentListRoute.map((path, index) => {
                     if (path) {
                         return <Route key={index} path={`${path}`} element={<ContentList/>}/>
                     }
                 })
             }
-            <Route path='*' element={<StartPage/>}/>
         </Routes>
     );
 };

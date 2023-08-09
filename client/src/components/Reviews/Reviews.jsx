@@ -10,13 +10,13 @@ const Reviews = ({reviewsList, page, upPage, filmInfo, setUpdateReviewList, relo
     const heightList = useRef();
     const [isAdmin, setIsAdmin] = useState('');
     const [openWindow, setOpenWindow] = useState(false);
-    const [infoAboutDeleteReview, setInfoAboutDeleteReview] = useState('')
+    const [infoAboutDeleteReview, setInfoAboutDeleteReview] = useState('');
 
 
     useEffect(() => {
         setIsAdmin(user.user.role)
 
-        if (user && filmInfo.kinopoiskId) {
+        if (user.isAuth && filmInfo.kinopoiskId) {
             const userId = user.user.id;
             showAllFilmReviews(userId, filmInfo.kinopoiskId)
                 .then(data => {
