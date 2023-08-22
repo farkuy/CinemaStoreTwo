@@ -37,7 +37,6 @@ const UserReview = ({filmInfo, reloadReviewList, setUpdateReviewList, updateRevi
 
 
     useEffect(() => {
-        console.log(filmInfo)
         setMaineInf0(filmInfo)
     }, [filmInfo])
 
@@ -110,7 +109,6 @@ const UserReview = ({filmInfo, reloadReviewList, setUpdateReviewList, updateRevi
         if (user) {
             const userName = user.user.email;
             const userId = user.user.id;
-            console.log(maineInfo.kinopoiskId, userName, textareaText, userId, appraisal)
             const edit = await editReview(maineInfo.kinopoiskId, userName, textareaText, userId, h1Text, appraisal)
             setInfoAboutAddReview(edit);
             setOpen(false)

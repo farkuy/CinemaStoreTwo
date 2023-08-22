@@ -108,6 +108,21 @@ export const getNameList = async (route, typeName) => {
     return data
 }
 
+export const checkVideo = async (url, duration) => {
+    const {data} = await $host.post(`api/video/createVideo`, {
+        url,
+        duration,
+    });
+    return data
+}
+
+export const checkComment = async (userId, url) => {
+    const {data} = await $authHost.get(`api/comment/getComment`, {
+        params: { userId, url },
+    });
+    return data
+}
+
 export const showAllFilmReviews = async (userId, filmId) => {
     const {data} = await $authHost.get(`api/review/showAllFilmReview`, {
         params: { userId, filmId },

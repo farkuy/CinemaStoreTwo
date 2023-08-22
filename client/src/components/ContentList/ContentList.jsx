@@ -7,6 +7,7 @@ import ModalWindow from "../ModalWindow/ModalWindow";
 import ArrowToTop from "../ArrowToTop/ArrowToTop";
 const ContentList = () => {
 
+    // TODO на больших разрешениях неплохо было бы растянуть, картинку для надписи обрезать снизу, при наведении показывать полностью без подписи
     const getApiInfo = useSelector(state => state.compilation)
 
     const [contentList, setContentList] = useState([]);
@@ -25,6 +26,7 @@ const ContentList = () => {
                 obj.getApi(page)
                     .then(data => {
                         if (data.films) {
+                            if (data.films.length === 0) return;
                             setContentList([...contentList, ...data.films])
                             setFilterConentList([...contentList, ...data.films])
                             setLoad(false)
@@ -32,6 +34,7 @@ const ContentList = () => {
                         else {
                             const url = window.location.href;
                             if (url.includes('cinema')) {
+                                if (data.items.length === 0) return;
                                 const film = data.items.filter((film) => {
                                     if(film.type === "FILM") return film
                                 })
@@ -41,6 +44,7 @@ const ContentList = () => {
                                 return
                             }
                             if (url.includes('serial')) {
+                                if (data.items.length === 0) return;
                                 const serials = data.items.filter((serial) => {
                                     if(serial.type === "MINI_SERIES" || serial.type === "TV_SERIES") return serial
                                 })

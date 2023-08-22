@@ -1,17 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import './ContentPageStyle.css'
-import {useParams} from "react-router-dom";
+import {json, useParams} from "react-router-dom";
 import {getMovieById, getRelatedMovies, getReviews} from "../../http/kinopoiskApi";
-import {еimerEqualizer} from "../../utils/function";
 import SequilBox from "../SequileBox/SequilBox";
 import ImgSlider from "../ImgSlider/ImgSlider";
 import Reviews from "../Reviews/Reviews";
-import {Button, Modal, Typography} from "@mui/material";
+import {Button} from "@mui/material";
 import VideoList from "../VideoList/VideoList";
 import MaineInfo from "./MaineInfo";
-import Box from "@mui/material/Box";
 import UserReview from "../UserReviews/UserReview";
-import {showAllFilmReviews} from "../../http/userApi";
 import {Context} from "../../index";
 
 const style = {
@@ -45,12 +42,37 @@ const ContentPage = () => {
             .then(data => {
                 setFilmInfo(data);
             })
+
+
+        let idTrue = Number (id.split('').filter(str => str !== ':').join(''));
+         let list = JSON.parse(localStorage.getItem('visitList'))
+        if (!list)
+        {
+            let newArr = [];
+            newArr.push(idTrue)
+            newArr = JSON.stringify(newArr)
+            localStorage.setItem('visitList', newArr)
+            return
+        }
+        if (list.length >= 6)
+        {
+            list.pop()
+        }
+
+        let index = list.indexOf(idTrue)
+        if (index !== -1)
+        {
+            list.splice(index, 1)
+        }
+        list.unshift(idTrue)
+        list = JSON.stringify(list)
+        localStorage.setItem('visitList', list)
     }, [id])
 
     useEffect(() => {
-        console.log(filmInfo.kinopoiskId)
-        if(filmInfo.kinopoiskId) {
-            getMovieById.getSequelPrequel(filmInfo.kinopoiskId)
+        let idTrue = filmInfo.kinopoiskId
+        if(idTrue) {
+            getMovieById.getSequelPrequel(idTrue)
                 .then(data => {
                     if (data.length > 3) {
                         setFinishSequelPrequelList([...data].slice(0, 3))
@@ -59,9 +81,8 @@ const ContentPage = () => {
                     }
                     setSequelPrequelList(data);
                 })
-            getRelatedMovies.getRelatedMovies(filmInfo.kinopoiskId)
+            getRelatedMovies.getRelatedMovies(idTrue)
                 .then(data => {
-                    console.log(data);
                     setRelatedMovies(data.items)
                 })
         }
@@ -83,6 +104,7 @@ const ContentPage = () => {
 
     }, [filmInfo, pageReviews, updateReviewList])
 
+
     const upPage = (x) => {
         setPageReviews(x)
     }
@@ -93,6 +115,7 @@ const ContentPage = () => {
 
     return (
         <div>
+            <VideoList id={id}/>
             <MaineInfo filmInfo={filmInfo}/>
             <div className={'listSeq'}>
                 {
@@ -125,8 +148,6 @@ const ContentPage = () => {
                 ? <UserReview reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo}/>
                 : <div></div>
             }
-
-            <VideoList/>
         </div>
     );
 };

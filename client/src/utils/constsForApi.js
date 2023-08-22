@@ -6,7 +6,8 @@ export const mostAnticipatedMovies = 'https://kinopoiskapiunofficial.tech/api/v2
 
 export const allGenresAndCountry = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/filters'
 export const getFilmById = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/';
-export const getYearAndGenre  = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/filters'
+export const getYearAndGenre  = 'https://kinopoiskapiunofficial.tech/api/v2.2/films/filters';
+export const youTubeApiKey = 'AIzaSyDSaB9JVAZ-XPS7eg-6yj0OAqmjD9LamQc'
 
 
 export const months = {

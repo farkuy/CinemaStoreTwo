@@ -1,0 +1,26 @@
+.getVisit {
+    width: 100px;
+    height: 140px;
+}
+
+.flexCenter {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
+.box {
+    width: 100%;
+}
+
+@media (max-width: 745px) {
+    .box {
+        width: 190%
+    }
+    .flexCenter {
+        width: 315px;
+    }
+}

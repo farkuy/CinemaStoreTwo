@@ -4,3 +4,28 @@
     top: 50%;
     transform: translate(-50%, -50%);
 }
+
+.centerDiv {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    overflow: auto;
+    flex-direction: column;
+}
+
+.centerChildDiv {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+@media (max-width: 610px) {
+    .centerChildDiv {
+        width: 50%;
+    }
+}

@@ -22,6 +22,23 @@ const ContentListNames = sequelize.define('contentListNameV', {
     listRoue: {type: DataTypes.STRING},
 })
 
+const Video = sequelize.define('video', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    url: {type: DataTypes.STRING, primaryKey: true},
+    duration: {type: DataTypes.INTEGER},
+})
+
+const Comment = sequelize.define('comment', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    url: {type: DataTypes.STRING},
+    userName: {type: DataTypes.STRING},
+    text: {type: DataTypes.STRING},
+    avatar: {type: DataTypes.STRING},
+    role: {type: DataTypes.STRING},
+    date: {type: DataTypes.STRING},
+    timecodeList: {type: DataTypes.ARRAY(DataTypes.JSONB), defaultValue: []},
+})
+
 const InviteToAGroups = sequelize.define('inviteToAGroupps', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     email: {type: DataTypes.STRING},
@@ -118,6 +135,9 @@ GrroupBB.belongsTo(User);
 User.hasMany(Review);
 Review.belongsTo(User);
 
+Video.hasMany(Comment);
+Comment.belongsTo(Video);
+
 User.hasMany(InviteToAGroups, {as: 'info'});
 InviteToAGroups.belongsTo(User);
 
@@ -148,6 +168,8 @@ MovieStudio.belongsToMany(Genre, {through: GenreMovieStudio});
 module.exports = {
     User,
     GrroupBB,
+    Comment,
+    Video,
     ContentListNames,
     Review,
     InviteToAGroups,

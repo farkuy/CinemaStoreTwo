@@ -1,0 +1,31 @@
+.table {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    margin: 10px;
+}
+
+.center {
+    border: 1px solid grey;
+}
+
+@media (max-width: 1050px) {
+    .table {
+        width: 90%;
+        height: 30%;
+    }
+}
+
+
+@media (max-width: 750px) {
+    .table {
+        width: 50%;
+        height: 450px;
+    }
+    .center {
+        transform: scale(0.5);
+    }
+}

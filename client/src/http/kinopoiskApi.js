@@ -6,7 +6,7 @@ import {
     top250Films
 } from "../utils/constsForApi";
 
-const apiKey = 'da54e60b-6df3-487b-99d2-a16d293f1eae';
+const apiKey = '589a46d8-a49d-4219-9604-252b052367f5';
 class KinopoiskApiInfo {
     constructor(url, key) {
         this.url = url;
@@ -23,8 +23,30 @@ class KinopoiskApiInfo {
         return resp;
     }
 
+    async getVideo(id) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/videos`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
+
     async getMostAnticipatedMovies(page) {
         const response = await fetch(`${this.url}${page}`, {
+            headers: {
+                "Content-Type": `application/json`,
+                'X-API-KEY': apiKey
+            }
+        })
+        const resp = await response.json();
+        return resp;
+    }
+
+    async getCashFilm(id) {
+        const response = await fetch(`https://kinopoiskapiunofficial.tech/api/v2.2/films/${id}/box_office`, {
             headers: {
                 "Content-Type": `application/json`,
                 'X-API-KEY': apiKey
