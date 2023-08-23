@@ -117,3 +117,13 @@ export function convertISO8601ToSeconds(duration) {
 
     return hours * 3600 + minutes * 60 + seconds;
 }
+
+export function convertToSeconds(time) {
+    const match = time.reverse()
+
+    const seconds = (parseInt(match[0]) || 0);
+    const minutes = (parseInt(match[1]) || 0);
+    const hours = (parseInt(match[2]) || 0);
+
+    return hours * 3600 + minutes * 60 + seconds;
+}

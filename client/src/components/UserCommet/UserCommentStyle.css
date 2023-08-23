@@ -1,0 +1,16 @@
+.userComment {
+    height: 14%;
+}
+
+@media (max-height: 1145px) {
+    .userComment {
+        height: 11%;
+    }
+}
+
+
+@media (max-height: 1090px) {
+    .userComment {
+        height: 8%;
+    }
+}

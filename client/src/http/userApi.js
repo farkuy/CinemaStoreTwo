@@ -123,6 +123,13 @@ export const checkComment = async (userId, url) => {
     return data
 }
 
+export const postCommentServer = async (userId, url, userName, text, avatar, role, date, timeCodeList) => {
+    const {data} = await $host.post(`api/comment/postComment`, {
+        userId, url, userName, text, avatar, role, date, timeCodeList,
+    });
+    return data
+}
+
 export const showAllFilmReviews = async (userId, filmId) => {
     const {data} = await $authHost.get(`api/review/showAllFilmReview`, {
         params: { userId, filmId },

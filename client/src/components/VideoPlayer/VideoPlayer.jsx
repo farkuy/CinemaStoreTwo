@@ -6,17 +6,22 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import './VideoPlayerStyle.css'
 import ReactPlayer from "react-player";
 import axios from "axios";
-import {convertISO8601ToSeconds} from "../../utils/function";
+import {convertISO8601ToSeconds, convertToSeconds} from "../../utils/function";
 import {youTubeApiKey} from "../../utils/constsForApi";
 import {checkVideo} from "../../http/userApi";
+import {useDispatch, useSelector} from "react-redux";
+import {setValue} from "../../toolkitRedux/timeCodeReducer";
 
 const VideoPlayer = ({trueId, url}) => {
+    const dispatch = useDispatch();
+    const timeCode = useSelector((state) => state.timeCode.value);
+    const newTimeCode = useSelector((state) => state.timeCode.counter);
     const [volume, setVolume] = useState(0.5);
     const [playSeconds, setPlaySeconds] = useState(0);
     const [videoLength, setVideoLength] = useState(0);
     const [playing, setPlaying] = useState(false);
     const [showVolume, setShowVolume] = useState(`none`);
-    const [showWidget, setShowWidget] = useState('block')
+    const [showWidget, setShowWidget] = useState('block');
     const ref = useRef();
     const full = useRef();
 
@@ -36,6 +41,29 @@ const VideoPlayer = ({trueId, url}) => {
     const fullScreen = (e) => {
         ref.current.wrapper.requestFullscreen();
     }
+
+    useEffect(() => {
+        console.log(timeCode)
+        let arr = timeCode.split(':');
+        arr = arr.map((time) => {
+            if (time.length === 1) {
+                return `0${time}`
+            } return time
+        })
+        let rewind = convertToSeconds(arr)
+        if (rewind >= videoLength)
+        {
+            ref.current.seekTo(videoLength)
+            return;
+        }
+        if (rewind < 0)
+        {
+            ref.current.seekTo(0)
+            return
+        }
+        ref.current.seekTo(rewind)
+        setPlaying(true)
+    }, [newTimeCode])
 
     useEffect(() => {
         const urlInfo = url.split('/')

@@ -24,7 +24,7 @@ class CommentController {
 
     async postComment (req, res, next) {
         try {
-            const {userId, url, userName, text, avatar, role, date, timecodeList} = req.body;
+            const {userId, url, userName, text, avatar, role, date, timeCodeList} = req.body;
             const user = await User.findOne({ where: { id: userId } });
             if (!user) {
                 return next(ApiError.internal(`Пользователь с таким именем не найден`));
@@ -36,7 +36,7 @@ class CommentController {
                 avatar: avatar,
                 role: role,
                 date: date,
-                timecodeList:timecodeList,
+                timecodeList: timeCodeList,
             });
 
             return res.json(comment)

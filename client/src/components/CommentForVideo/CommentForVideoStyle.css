@@ -1,0 +1,55 @@
+.comment {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    height: 50%;
+    overflow: auto;
+    padding: 0 5%;
+}
+
+@media (max-height: 1020px) {
+    .comment {
+        height: 45%;
+    }
+}
+
+@media (max-height: 965px) {
+    .comment {
+        height: 40%;
+    }
+}
+
+@media (max-height: 850px) {
+    .comment {
+        height: 30%;
+    }
+}
+
+@media (max-height: 725px) {
+    .comment {
+        height: 24%;
+    }
+}
+
+@media (max-height: 650px) {
+    .comment {
+        height: 20%;
+    }
+}
+
+@media (min-height: 1190px) {
+    .comment {
+        height: 52%;
+    }
+}
+
+@media (min-height: 1350px) {
+    .comment {
+        height: 55%;
+    }
+}
+
+@media (min-height: 1500px) {
+    .comment {
+        height: 60%;
+    }
+}
