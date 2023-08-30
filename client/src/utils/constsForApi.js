@@ -25,3 +25,9 @@ export const months = {
     '11': "December"
 }
 
+export const colorForTimeCode = new Map([
+    [1, '#FFBF96'],
+    [5, '#FFBF40'],
+    [30, '#FF8800'],
+    [70, '#FF0000'],
+]);

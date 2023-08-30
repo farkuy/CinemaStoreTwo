@@ -1,4 +1,5 @@
 import {getGenre, getMovieByGenre, getReleaseDateMovies} from "../http/kinopoiskApi";
+import {colorForTimeCode} from "./constsForApi";
 
 export function еimerEqualizer(min) {
     let h = `${Math.floor(min / 60)}`;
@@ -127,3 +128,14 @@ export function convertToSeconds(time) {
 
     return hours * 3600 + minutes * 60 + seconds;
 }
+
+export function timeCodeColorAssignment(value) {
+    let finishColor = ''
+    for (let colorValue of colorForTimeCode.keys())
+    {
+        if (value >= colorValue) finishColor = colorForTimeCode.get(colorValue);
+        else break
+    }
+    return finishColor
+}
+

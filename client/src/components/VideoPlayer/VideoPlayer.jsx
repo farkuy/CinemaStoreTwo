@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {Button, IconButton, Slider} from "@mui/material";
 import Box from "@mui/material/Box";
 import VolumeDownIcon from '@mui/icons-material/VolumeDown';
@@ -6,14 +6,15 @@ import VolumeOffIcon from '@mui/icons-material/VolumeOff';
 import './VideoPlayerStyle.css'
 import ReactPlayer from "react-player";
 import axios from "axios";
-import {convertISO8601ToSeconds, convertToSeconds} from "../../utils/function";
+import {convertISO8601ToSeconds, convertToSeconds, timeCodeColorAssignment} from "../../utils/function";
 import {youTubeApiKey} from "../../utils/constsForApi";
-import {checkVideo} from "../../http/userApi";
-import {useDispatch, useSelector} from "react-redux";
-import {setValue} from "../../toolkitRedux/timeCodeReducer";
+import {checkComment, checkVideo} from "../../http/userApi";
+import {useSelector} from "react-redux";
+import {Context} from "../../index";
+import ConsecutiveSnackbars from "../ConsecutiveSnackbars/ConsecutiveSnackbars";
 
 const VideoPlayer = ({trueId, url}) => {
-    const dispatch = useDispatch();
+    const {user} = useContext(Context);
     const timeCode = useSelector((state) => state.timeCode.value);
     const newTimeCode = useSelector((state) => state.timeCode.counter);
     const [volume, setVolume] = useState(0.5);
@@ -22,16 +23,33 @@ const VideoPlayer = ({trueId, url}) => {
     const [playing, setPlaying] = useState(false);
     const [showVolume, setShowVolume] = useState(`none`);
     const [showWidget, setShowWidget] = useState('block');
+    const [commentForTimeCode, setCommentForTimeCode] = useState([]);
+    const [marks, setMarks] = useState([]);
+    const [position, setPosition] = useState({x: 0, y: 0, value: 0})
     const ref = useRef();
     const full = useRef();
+    const testMarks = new Map()
 
     const handleChangVolume = (event, newValue) => {
         setVolume(newValue);
     };
     const handleChangTimer = (event, newValue) => {
+        const mark = marks.find((mark) => mark.value === newValue);
+        if (mark)
+        {
+           setCommentForTimeCode(mark.comments);
+        }
         ref.current.seekTo(newValue)
         setPlaySeconds(newValue);
         setPlaying(true)
+    };
+
+    const clickForGetCommentTimeCode = (event) => {
+        const mark = marks.find((mark) => mark.value === playSeconds)
+        if (mark)
+        {
+            setPosition({x: event.pageX, y: event.pageY, value: playSeconds})
+        }
     };
 
     const prog = (e) => {
@@ -43,7 +61,6 @@ const VideoPlayer = ({trueId, url}) => {
     }
 
     useEffect(() => {
-        console.log(timeCode)
         let arr = timeCode.split(':');
         arr = arr.map((time) => {
             if (time.length === 1) {
@@ -85,6 +102,78 @@ const VideoPlayer = ({trueId, url}) => {
         checkVideo(url, videoLength)
     }, [videoLength])
 
+    useMemo(() => {
+        if (user.isAuth)
+        {
+            const userId = user.user.id;
+            checkComment(userId, url)
+                .then(data => {
+                    let timeCodes = data.filter((comment) => {
+                        if (comment.timecodeList.length > 0) return true
+                    })
+                    timeCodes.forEach((timeCode) => {
+                        let timeCodeList = timeCode.timecodeList
+
+                        timeCodeList = new Set(timeCodeList)
+                        timeCode.timecodeList = Array.from(timeCodeList)
+
+                        for (let code of timeCode.timecodeList)
+                        {
+                            !testMarks.has(code)
+                            ? testMarks.set(code, [timeCode])
+                            : testMarks.set(code, [...testMarks.get(code), timeCode])
+                        }
+
+                    })
+                    timeCodes = Array.from(testMarks).map((timeCode) => {
+                        const arrTimeCode = timeCode[0].split(':');
+                        let seconds = arrTimeCode.map((time) => {
+                            if (time.length === 1) {
+                                return `0${time}`
+                            }
+                            return time
+                        })
+                        seconds = convertToSeconds(seconds)
+
+                        if (seconds >= videoLength)
+                        {
+                            seconds = videoLength
+                        }
+                        if (seconds < 0)
+                        {
+                            seconds = 0
+                        }
+                        return {
+                            value: seconds,
+                            comments: timeCode[1],
+                        }
+                    })
+                    timeCodes.sort((a, b) => a.value - b.value)
+                    setMarks(timeCodes)
+                })
+        }
+    }, [videoLength])
+
+    useMemo(() => {
+        if (marks.length > 0)
+        {
+            const element = document.querySelectorAll(`.MuiSlider-mark`);
+            for (let i = 0; i < element.length; ++i)
+            {
+                const color = timeCodeColorAssignment(marks[i].comments.length)
+                element[i].style.color = color
+                element[i].addEventListener('mouseover', () => {
+                    element[i].style.color = '#4B5ED7';
+                });
+                element[i].addEventListener('mouseout', () => {
+                    element[i].style.color = color;
+                });
+            }
+        }
+
+    }, [marks])
+
+
     return (
         <div ref={full}>
             <ReactPlayer
@@ -98,6 +187,7 @@ const VideoPlayer = ({trueId, url}) => {
             >
 
             </ReactPlayer>
+            <ConsecutiveSnackbars commentForTimeCode={commentForTimeCode} positionMessage={position}/>
             <div
                 className={'maine'}
             >
@@ -163,6 +253,10 @@ const VideoPlayer = ({trueId, url}) => {
                                 '& input[type="range"]': {
                                     WebkitAppearance: 'slider-vertical',
                                 },
+                                '& .MuiSlider-mark': {
+                                    height: '20px',
+                                    width: '0.3%'
+                                }
                             }}
                             step={1}
                             min={0}
@@ -171,6 +265,8 @@ const VideoPlayer = ({trueId, url}) => {
                             defaultValue={volume}
                             aria-label="Temperature"
                             valueLabelDisplay="auto"
+                            marks={marks}
+                            onClick={clickForGetCommentTimeCode}
                             onChange={handleChangTimer}
                         />
                     </Box>

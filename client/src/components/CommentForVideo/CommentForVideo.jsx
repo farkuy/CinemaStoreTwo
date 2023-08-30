@@ -1,16 +1,19 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {Avatar, Button, Divider, Grid, Paper} from "@mui/material";
+import React, {useContext, useEffect, useMemo, useState} from 'react';
+import {Avatar, Button, Divider, Grid, IconButton, Paper} from "@mui/material";
 import {checkComment} from "../../http/userApi";
 import {Context} from "../../index";
 import {useDispatch, useSelector} from "react-redux";
 import {setValue} from "../../toolkitRedux/timeCodeReducer";
 import './CommentForVideoStyle.css'
+import CloseIcon from "@mui/icons-material/Close";
 
 const CommentForVideo = ({url}) => {
     const dispatch = useDispatch();
-    const timeCodeRedux = useSelector((state) => state.timeCode.value);
+    const timeCodeCommentRedux = useSelector((state) => state.commentTimeCodeReducer.comment);
+    const timeCodeCommentCheck = useSelector((state) => state.commentTimeCodeReducer.counter);
     const {user} = useContext(Context);
-    const [comment, setComment] = useState([])
+    const [comment, setComment] = useState([]);
+    const [commentForTimeCode, setCommentForTimeCode] = useState([])
 
     const timeCode = (event) => {
         return (
@@ -40,6 +43,10 @@ const CommentForVideo = ({url}) => {
         )
     }
 
+    useMemo(() => {
+        setCommentForTimeCode(timeCodeCommentRedux)
+    }, [timeCodeCommentCheck])
+
     useEffect(() => {
         if (user.isAuth)
         {
@@ -51,11 +58,35 @@ const CommentForVideo = ({url}) => {
         }
     }, [])
 
+    const closeCommentFilter = () => {
+        setCommentForTimeCode([])
+    }
+
     return (
         <div className={'comment'}>
-            <Paper style={{ padding: "40px 20px" }}>
+            <div style={{display: 'flex', justifyContent: "flex-end"}}>
                 {
-                    comment.map((commentInfo) => {
+                    commentForTimeCode.length !== 0
+                        ?
+                        <div
+                        >
+                            <IconButton
+                                onClick={closeCommentFilter}
+                                style={{position: `fixed`, right: '53px'}}
+                            >
+                                <CloseIcon
+                                />
+                            </IconButton>
+                        </div>
+
+                        : <div></div>
+                }
+            </div>
+
+            <Paper style={{ padding: "40px 20px", }}>
+            {
+                    commentForTimeCode.length === 0
+                    ? comment.map((commentInfo, index) => {
                         const mapText = []
                         let timeCorrect = commentInfo.date.split('T').join(' ');
                         const date = new Date(timeCorrect);
@@ -76,14 +107,13 @@ const CommentForVideo = ({url}) => {
                                 mapText.push(newText,span)
                             }
                         }
-
-                        let txt = allText.slice(startIndex, startIndex);
+                        let txt = allText.slice(startIndex);
                         const regex = /\d{1,2}:\d{1,2}(:\d{1,2})?/g;
                         let end = txt.replace(regex, '');
                         end = justText(end)
                         mapText.push(end)
 
-                        return <div>
+                        return <div index={index}>
                             <Grid container wrap="nowrap" spacing={2}>
                                 <Grid item>
                                     <Avatar alt={`${commentInfo.avatar}` || "Remy Sharp"}/>
@@ -101,8 +131,51 @@ const CommentForVideo = ({url}) => {
                             <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
                         </div>
                     })
-                }
+                    : commentForTimeCode.map((commentInfo) => {
+                            const mapText = []
+                            let timeCorrect = commentInfo.date.split('T').join(' ');
+                            const date = new Date(timeCorrect);
+                            const formattedDate = date.toISOString().replace("T", " ").replace(/\.\d{3}Z/, "");
+                            const allText = commentInfo.text;
+                            let startIndex = 0;
+                            for (let miniText of commentInfo.timecodeList)
+                            {
+                                let index = allText.indexOf(miniText)
+                                if (index !== -1)
+                                {
+                                    let txt = allText.slice(startIndex, index);
+                                    const regex = /\d{1,2}:\d{1,2}(:\d{1,2})?/g;
+                                    let newText = txt.replace(regex, '');
+                                    newText = justText(newText)
+                                    let span = timeCode(miniText)
+                                    startIndex = allText.indexOf(miniText) + miniText.length
+                                    mapText.push(newText,span)
+                                }
+                            }
+                            let txt = allText.slice(startIndex);
+                            const regex = /\d{1,2}:\d{1,2}(:\d{1,2})?/g;
+                            let end = txt.replace(regex, '');
+                            end = justText(end)
+                            mapText.push(end)
 
+                            return <div>
+                                <Grid container wrap="nowrap" spacing={2}>
+                                    <Grid item>
+                                        <Avatar alt={`${commentInfo.avatar}` || "Remy Sharp"}/>
+                                    </Grid>
+                                    <Grid justifyContent="left" item xs zeroMinWidth>
+                                        <h4 style={{ margin: 0, textAlign: "left" }}>{commentInfo.userName}</h4>
+                                        <p style={{ textAlign: "left" }}>
+                                            {box(mapText)}
+                                        </p>
+                                        <p style={{ textAlign: "left", color: "gray" }}>
+                                            posted {formattedDate}
+                                        </p>
+                                    </Grid>
+                                </Grid>
+                            </div>
+                        })
+                }
             </Paper>
         </div>
     );

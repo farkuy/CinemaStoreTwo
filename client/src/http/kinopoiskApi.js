@@ -6,7 +6,7 @@ import {
     top250Films
 } from "../utils/constsForApi";
 
-const apiKey = '80eb4d7c-151a-4371-8c72-3a3796eedc44';
+const apiKey = 'da54e60b-6df3-487b-99d2-a16d293f1eae';
 class KinopoiskApiInfo {
     constructor(url, key) {
         this.url = url;

@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {Button, IconButton, Modal} from "@mui/material";
-import SettingsIcon from "@mui/icons-material/Settings";
 import Box from "@mui/material/Box";
 import VideoPlayer from "../VideoPlayer/VideoPlayer";
 import CommentForVideo from "../CommentForVideo/CommentForVideo";
 import UserComment from "../UserCommet/UserComment";
+import {useDispatch, useSelector} from "react-redux";
+import {setValueComment} from "../../toolkitRedux/commentTimeCodeReducer";
 
 const style = {
-    position: 'absolute',
+    position: 'relative',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
@@ -21,10 +22,17 @@ const style = {
 
 const ModalVideo = ({trueId, url}) => {
     const [open, setOpen] = useState(false)
+    const dispatch = useDispatch();
+    const [closeBtn, setCloseBtn] = useState(false)
+
     const handleOpen = () => {
         setOpen(true);
     }
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+        dispatch(setValueComment([]))
+    };
+
 
     return (
         <div>
@@ -42,6 +50,7 @@ const ModalVideo = ({trueId, url}) => {
             >
                 <Box sx={style}>
                     <VideoPlayer trueId={trueId} url={url}/>
+
                     <CommentForVideo url={url}/>
                     <UserComment url={url}/>
                 </Box>
