@@ -6,5 +6,6 @@ const router = new Router();
 
 router.post('/postComment', commentController.postComment);
 router.get('/getComment', authMiddleware, commentController.getAllComment);
+router.post('/delComment', commentController.deleteUserComment);
 
 module.exports = router

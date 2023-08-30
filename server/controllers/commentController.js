@@ -45,6 +45,27 @@ class CommentController {
             throw new Error(`Ошибка при отправке комментария`)
         }
     }
+
+    async deleteUserComment (req, res, next) {
+        try {
+            const {userName, url, textStr} = req.body;
+            const user = await User.findOne({ where: { email: userName } });
+            if (!user) {
+                return next(ApiError.internal(`Пользователь с таким именем не найден`));
+            }
+            const commentUser = await Comment.findOne({where: {userName: userName, url: url, text: textStr}});
+            if (!commentUser) {
+                return next(ApiError.internal(`Такого комментария не существует`));
+            }
+
+            commentUser.destroy();
+            commentUser.save();
+            return res.json('Комментарий был удален')
+        } catch (e) {
+            console.log(e)
+            throw new Error(`Ошибка при удалении комментария`)
+        }
+    }
 }
 
 module.exports = new CommentController();

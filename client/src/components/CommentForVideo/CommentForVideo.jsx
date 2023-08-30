@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Avatar, Button, Divider, Grid, IconButton, Paper} from "@mui/material";
-import {checkComment} from "../../http/userApi";
+import {checkComment, deleteUserComment} from "../../http/userApi";
 import {Context} from "../../index";
 import {useDispatch, useSelector} from "react-redux";
 import {setValue} from "../../toolkitRedux/timeCodeReducer";
@@ -62,6 +62,14 @@ const CommentForVideo = ({url}) => {
         setCommentForTimeCode([])
     }
 
+    const deleteComment = async (userName, textStr) => {
+        if(user.isAuth)
+        {
+            const data = await deleteUserComment(userName, url, textStr)
+            console.log(data)
+        }
+    }
+
     return (
         <div className={'comment'}>
             <div style={{display: 'flex', justifyContent: "flex-end"}}>
@@ -87,6 +95,9 @@ const CommentForVideo = ({url}) => {
             {
                     commentForTimeCode.length === 0
                     ? comment.map((commentInfo, index) => {
+                        console.log(commentInfo)
+                        const textStr = commentInfo.text
+                       const userName = commentInfo.userName
                         const mapText = []
                         let timeCorrect = commentInfo.date.split('T').join(' ');
                         const date = new Date(timeCorrect);
@@ -127,11 +138,25 @@ const CommentForVideo = ({url}) => {
                                         posted {formattedDate}
                                     </p>
                                 </Grid>
+                                {
+                                    user.user.role === `ADMIN` || commentInfo.userName === user.user.email
+                                    ? <Button
+                                        onClick={() => deleteComment(userName, textStr)}
+                                            variant="outlined"
+                                            color="error"
+                                            style={{height: '30px', position: `absolute`, right: '70px'}}
+                                        >
+                                            Удалить
+                                    </Button>
+                                    : <div></div>
+                                }
                             </Grid>
                             <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
                         </div>
                     })
                     : commentForTimeCode.map((commentInfo) => {
+                            const textStr = commentInfo.text
+                            const userName = commentInfo.userName
                             const mapText = []
                             let timeCorrect = commentInfo.date.split('T').join(' ');
                             const date = new Date(timeCorrect);
@@ -172,7 +197,21 @@ const CommentForVideo = ({url}) => {
                                             posted {formattedDate}
                                         </p>
                                     </Grid>
+                                    {
+                                        user.user.role === `ADMIN`
+                                            ? <Button
+                                                onClick={() => deleteComment(userName, textStr)}
+                                                variant="outlined"
+                                                color="error"
+                                                style={{height: '30px', width: '85px', position: `absolute`, right: '70px'}}
+                                                >
+                                                    Удалить
+                                                </Button>
+                                            : <div></div>
+                                    }
                                 </Grid>
+                                <Divider variant="fullWidth" style={{ margin: "30px 0" }} />
+
                             </div>
                         })
                 }

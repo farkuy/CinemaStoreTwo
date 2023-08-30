@@ -100,6 +100,15 @@ export const setNameListFunc = async (route, typeName, listNames) => {
     return data
 }
 
+export const deleteUserComment = async (userName, url, textStr) => {
+    const data = await $host.post(`api/comment/delComment`, {
+        userName,
+        url,
+        textStr
+    })
+    return data
+}
+
 export const getNameList = async (route, typeName) => {
     const {data} = await $host.post(`api/genre/getNameList`, {
         route,
