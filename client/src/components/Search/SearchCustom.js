@@ -104,7 +104,6 @@ const SearchCustom  = () => {
                                 className={'parent'}
                             >
                                 {contentList.map((content, index) => {
-                                    console.log(content)
                                     return <li
                                         onClick={(e) => filmMove(e, content)}
                                         className={'child'}

@@ -39,8 +39,8 @@ const PremiereList = () => {
                             Премеры месяца
                         </Typography>
                         {
-                            premierList.length > 0 && [...premierList].slice(0, 5).map((prem) => {
-                                return <PremierBox info={prem}/>
+                            premierList.length > 0 && [...premierList].slice(0, 5).map((prem, index) => {
+                                return <PremierBox key={prem.filmId} info={prem}/>
                             })
                         }
                     </List>
@@ -51,8 +51,8 @@ const PremiereList = () => {
                             Цифровые релизы месяца
                         </Typography>
                         {
-                            releasesList.length > 0 && [...releasesList].slice(0, 5).map((prem) => {
-                                return <PremierBox info={prem}/>
+                            releasesList.length > 0 && [...releasesList].slice(0, 5).map((prem, index) => {
+                                return <PremierBox key={prem.filmId} info={prem}/>
                             })
                         }
                     </List>

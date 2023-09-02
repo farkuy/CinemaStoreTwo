@@ -115,7 +115,6 @@ const ContentPage = () => {
 
     return (
         <div>
-            <VideoList id={id}/>
             <MaineInfo filmInfo={filmInfo}/>
             <div className={'listSeq'}>
                 {
@@ -127,27 +126,33 @@ const ContentPage = () => {
             </div>
             {
                 sequelPrequelList.length > 3 && finishSequelPrequelList.length <= 3
-                ? <Button
-                        size="md"
-                        variant="solid"
-                        color="neutral"
-                        onClick={() => setFinishSequelPrequelList(sequelPrequelList)}
-                    >
-                        Показать все...
-                    </Button>
+                ? <div style={{display: `flex`, justifyContent: 'center', alignItems: 'center', marginTop: '20px'}}>
+                        <Button
+                            size="md"
+                            variant="solid"
+                            color="neutral"
+                            onClick={() => setFinishSequelPrequelList(sequelPrequelList)}
+                        >
+                            Показать все...
+                        </Button>
+                    </div>
+
                 : <div></div>
             }
 
-            <ImgSlider setPageReviews={setPageReviews} relatedMovies={relatedMovies}/>
-
+            <ImgSlider style={{marginTop: '20px'}} setPageReviews={setPageReviews} relatedMovies={relatedMovies}/>
 
             <Reviews reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo} upPage={upPage} page={pageReviews} reviewsList={reviewsList}/>
 
             {
                 user.isAuth
-                ? <UserReview reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo}/>
+                ? <div style={{display: `flex`, justifyContent: 'center', alignItems: 'center'}}>
+                        <UserReview reloadReviewList={reloadReviewList} setUpdateReviewList={setUpdateReviewList} updateReviewList={updateReviewList} filmInfo={filmInfo}/>
+                    </div>
                 : <div></div>
             }
+
+            <VideoList id={id}/>
         </div>
     );
 };

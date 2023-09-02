@@ -45,6 +45,7 @@ const ImgSlider = ({ relatedMovies, setPageReviews }) => {
                 infoArr.length > 0
                     ?  <Box sx={{ width: '79%', bgcolor: 'background.paper' }}>
                             <Tabs
+                                centered={true}
                             value={value}
                             onChange={handleChange}
                             variant="scrollable"

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useRef, useState} from 'react';
 import {Button, Card, CardContent, List, Paper, Typography} from "@mui/material";
 import {deleteUserReview, showAllFilmReviews} from "../../http/userApi";
 import {Context} from "../../index";
@@ -11,6 +11,7 @@ const Reviews = ({reviewsList, page, upPage, filmInfo, setUpdateReviewList, relo
     const [isAdmin, setIsAdmin] = useState('');
     const [openWindow, setOpenWindow] = useState(false);
     const [infoAboutDeleteReview, setInfoAboutDeleteReview] = useState('');
+    const [showReviews, setShowReviews] = useState('hidden')
 
 
     useEffect(() => {
@@ -43,9 +44,19 @@ const Reviews = ({reviewsList, page, upPage, filmInfo, setUpdateReviewList, relo
         setOpenWindow(false)
     }
 
+    useMemo(() => {
+        if (list.length ===0)
+        {
+            setShowReviews(`hidden`)
+
+        } else {
+            setShowReviews(`visible`)
+        }
+    }, [list])
+
     return (
         <div>
-            <Paper style={{maxHeight: 500, overflow: 'auto', padding: '0 5% 0 5%'}}>
+            <Paper style={{maxHeight: 500, overflow: 'auto', padding: '0 5% 0 5%', visibility: `${showReviews}`,margin: '5% 0 13px 0'}}>
                 <List ref={heightList}>
                     {
                         list.map((i, index) => {
@@ -99,15 +110,21 @@ const Reviews = ({reviewsList, page, upPage, filmInfo, setUpdateReviewList, relo
                             </Card>
                         })
                     }
-                    <Button
-                        style={{marginLeft: `7px`}}
-                        size="md"
-                        variant="solid"
-                        color="neutral"
-                        onClick={() => upPage(page + 1)}
-                    >
-                        Показать другие рецензии...
-                    </Button>
+                    {
+                        list.length !== 0
+                        ?
+                            <Button
+                                style={{marginLeft: `7px`}}
+                                size="md"
+                                variant="solid"
+                                color="neutral"
+                                onClick={() => upPage(page + 1)}
+                            >
+                                Показать другие рецензии...
+                            </Button>
+                        : <div></div>
+                    }
+
                 </List>
             </Paper>
             <SnackbarMessage setOpenWindow={setOpenWindow} close={close} info={infoAboutDeleteReview} openWindow={openWindow}/>

@@ -8,25 +8,9 @@ import jwt_decode from "jwt-decode";
 const Admin = () => {
     const {user} = useContext(Context);
 
-    const createNewGroup = async (e) => {
-        e.preventDefault();
-
-        if (user) {
-            await createGroup(user.id, `тры`)
-                .then(data => {
-                    console.log(data)
-                })
-        }
-    }
-
     return (
         <div>
             <UserSearch/>
-            <Button
-                onClick={createNewGroup}
-            >
-                Создать новую группу
-            </Button>
         </div>
     );
 };

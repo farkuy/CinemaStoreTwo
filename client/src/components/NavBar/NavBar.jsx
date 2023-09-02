@@ -47,9 +47,13 @@ const NavBar = () => {
                         variant="h6"
                         component="div"
                         sx={{ flexGrow: 1 }}
-                        onClick={(e) => history(START_ROUTE)}
                     >
-                        Cinema
+                        <div
+                            style={{width: '70px', cursor: 'pointer'}}
+                            onClick={(e) => history(START_ROUTE)}
+                        >
+                            Cinema
+                        </div>
                     </Typography>
                     <SearchCustom/>
                     {

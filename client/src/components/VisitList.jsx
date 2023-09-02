@@ -17,7 +17,6 @@ const VisitList = () => {
     };
     useMemo(() => {
         let listId = JSON.parse(localStorage.getItem(`visitList`));
-        console.log(typeof listId)
         if (!listId)
         {
             setIdList([]);
@@ -26,6 +25,10 @@ const VisitList = () => {
         }
         setIdList(listId)
     }, [])
+
+    const randomKey = (x) => {
+        return x * Math.random()
+    }
 
     return (
         <div className={'flexCenter'}>
@@ -43,9 +46,9 @@ const VisitList = () => {
                             >
                                 {idList.map((inf, index) => (
                                     <div style={{margin: 10}}>
-                                        <VisitSlider index={index} info={inf}/>
+                                        <VisitSlider key={inf} info={inf}/>
                                         <Tab
-                                            key={index}>
+                                            key={randomKey(inf)}>
                                         </Tab>
                                     </div>
                                 ))}

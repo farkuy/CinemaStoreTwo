@@ -17,6 +17,8 @@ const ContentFilter = ({infoAboutContentList, filterContent}) => {
     const [maxAge, setMaxAge] = useState(new Date().getFullYear() + 10);
     const [genre, setGenre] = useState('');
     const [country, setCountry] = useState('');
+    const [deactivateFilterBtn, setDeactivateFilterBtn] = useState(false);
+    const [colorMaxAge, setColorMaxAge] = useState(false);
 
     const [allGenre, setAllGenre] = useState([]);
     const [allCountry, setAllCountry] = useState([]);
@@ -44,15 +46,20 @@ const ContentFilter = ({infoAboutContentList, filterContent}) => {
         const { value } = e.target;
         let newValue = value.replace(/[^\d]/g, '');
         newValue = Number(newValue)
-        if(newValue > new Date().getFullYear() + 10) {
+        setMaxAge(newValue)
+        setColorMaxAge(false)
+        setDeactivateFilterBtn(false)
+        if(newValue > new Date().getFullYear() + 10)
+        {
             setMaxAge(new Date().getFullYear() + 10);
             return
         }
-        if(newValue < minAge) {
-            setMaxAge(minAge);
+        if(newValue < minAge)
+        {
+            setColorMaxAge(true)
+            setDeactivateFilterBtn(true)
             return;
         }
-        setMaxAge(newValue);
     }
 
     const minChange = (e) => {
@@ -139,6 +146,8 @@ const ContentFilter = ({infoAboutContentList, filterContent}) => {
 
     const filter = (e) => {
         e.preventDefault();
+
+        if (maxAge.length < 4) alert(32)
 
         let filterArr = JSON.parse(JSON.stringify(infoAboutContentList));
         let filetEnd = [];
@@ -228,14 +237,14 @@ const ContentFilter = ({infoAboutContentList, filterContent}) => {
                     </div>
                     <div>
                         <TextField style={{margin: `3px`}} id="standard-basic" label="Начало периода" value={minAge} onInput={minChange}/>
-                        <TextField style={{margin: `3px`}} id="standard-basic" label="Конец периода" value={maxAge} onInput={maxChange}/>
+                        <TextField style={{margin: `3px`}} error={colorMaxAge} id="standard-basic" label="Конец периода" value={maxAge} onInput={maxChange}/>
                     </div>
                 </div>
             </Box>
             <div className={'center'}>
                 <div>
                     <FormControl variant="standard" style={{margin: `15px`, minWidth: 120}}>
-                        <InputLabel id="demo-simple-select-standard-label">Genre</InputLabel>
+                        <InputLabel id="demo-simple-select-standard-label">Жанр</InputLabel>
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="demo-simple-select-standard"
@@ -255,7 +264,7 @@ const ContentFilter = ({infoAboutContentList, filterContent}) => {
                     </FormControl>
 
                     <FormControl variant="standard" style={{margin: `15px`, minWidth: 120}}>
-                        <InputLabel id="demo-simple-select-standard-label">Country</InputLabel>
+                        <InputLabel id="demo-simple-select-standard-label">Страна</InputLabel>
                         <Select
                             labelId="demo-simple-select-standard-label"
                             id="demo-simple-select-standard"
@@ -277,6 +286,7 @@ const ContentFilter = ({infoAboutContentList, filterContent}) => {
                 <div>
                     <FormControl variant="standard" sx={{minWidth: 120 }}>
                         <Button
+                            disabled={deactivateFilterBtn}
                             onClick={filter}
                             variant="contained"
                             color="primary"

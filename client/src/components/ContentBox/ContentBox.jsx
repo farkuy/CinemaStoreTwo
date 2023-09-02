@@ -9,7 +9,7 @@ import {StandardContentInfoAboutKinopoiskId, standardContentInfoAboutKinopoiskId
 const ContentBox = ({info, removeContent}) => {
     const [genres, setGenres] = useState('');
     const infoStandard = convertToObjectFromAPISource(info);
-    const [location, setLocation] = useState('standart')
+    const [location, setLocation] = useState('')
     const history = useNavigate();
 
     useEffect( () => {
@@ -25,9 +25,7 @@ const ContentBox = ({info, removeContent}) => {
 
         const handlePopstate = () => {
             const url = window.location.href;
-            const parts = url.split('/');
-            const lastPart = parts[parts.length - 1];
-            setLocation(lastPart)
+            if (url.includes(`profile`)) setLocation(`profile`)
         }
 
         window.addEventListener('popstate', handlePopstate)
@@ -105,7 +103,7 @@ const ContentBox = ({info, removeContent}) => {
                         </CardActionArea>
                         <CardActions className={`movie__btn`}>
                             {
-                                location !== 'basket'
+                                location !== 'profile'
                                 ? <Button
                                         size="small"
                                         color="primary"

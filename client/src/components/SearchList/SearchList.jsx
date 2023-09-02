@@ -31,10 +31,8 @@ const SearchList = () => {
         getСontentByTitle
             .getСontentByTitle(localStorage.getItem('search'), page)
             .then(data => {
-                console.log(data)
                 setContentList([ ...contentList,...data.items]);
                 setFinallyContentList([ ...finallyContentList,...data.items]);
-                console.log([...finallyContentList,...data.items])
                 setLoad(false);
             })
     }, [page])

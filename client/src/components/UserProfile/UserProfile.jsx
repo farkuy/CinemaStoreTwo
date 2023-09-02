@@ -5,6 +5,7 @@ import {Button, Card, CardContent, MenuItem, Typography} from "@mui/material";
 import {Context} from "../../index";
 import {BASKET_ROUTE} from "../../Routes/consts";
 import {useNavigate} from "react-router-dom";
+import Basket from "../../pages/Basket";
 
 const UserProfile = () => {
 
@@ -60,39 +61,6 @@ const UserProfile = () => {
 
     return (
         <div>
-            <MenuItem onClick={(e) => history(BASKET_ROUTE)}>
-                <Typography textAlign="center">Мои фильмы</Typography>
-            </MenuItem>
-            {
-                invitationGroups.length > 0
-                ? invitationGroups.map((invt) => {
-                        return <Card
-                            style={{background:`linear-gradient(to right, #FFD700, #FFA500)`}}
-                            sx={{ minWidth: 275 }}>
-                            <CardContent>
-                                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                                </Typography>
-                                <Typography variant="h5" component="div">
-                                    Вас пригласилли в группу {invt.groupName}
-                                </Typography>
-                                <Typography variant="body2">
-                                    <Button
-                                        onClick={(e) => acceptTheInvitationGroup(e, invt.groupName)}
-                                    >
-                                        Вступить
-                                    </Button>
-                                    <Button
-                                        color="error"
-                                    >
-                                        Отказаться
-                                    </Button>
-                                </Typography>
-
-                            </CardContent>
-                        </Card>
-                    })
-                : <div></div>
-            }
             {
                 invitationMessage === 'Нет действующих приглашений стать администратором'
                 ? <div>'Нет действующих приглашений стать администратором'</div>
@@ -121,7 +89,7 @@ const UserProfile = () => {
                         </CardContent>
                     </Card>
             }
-
+            <Basket/>
         </div>
     );
 };

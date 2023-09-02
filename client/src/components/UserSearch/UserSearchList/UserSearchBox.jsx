@@ -1,9 +1,10 @@
-import React, {useMemo, useState} from 'react';
+import React, {useContext, useMemo, useState} from 'react';
 import Box from "@mui/material/Box";
 import {Button, Card, CardContent, Typography} from "@mui/material";
 import {inviteToAGroup, requestAddNewAdmin} from "../../../http/userApi";
 import SnackbarMessage from "../../SnackbarMessages/SnackbarMessage";
 import jwt_decode from "jwt-decode";
+import {Context} from "../../../index";
 const bull = (
     <Box
         component="span"
@@ -12,14 +13,15 @@ const bull = (
         •
     </Box>
 );
-const UserSearchBox = ({user}) => {
+const UserSearchBox = ({userInfo}) => {
 
+    const {user} = useContext(Context)
     const [background, setBackground] = useState('');
     const [openWindow, setOpenWindow] = useState(false);
     const [infoMessage, setInfoMessage] = useState(``)
 
     useMemo(() => {
-        if (user.role === 'ADMIN') {
+        if (userInfo.role === 'ADMIN') {
             setBackground('linear-gradient(-45deg, #a3e6b1, #69d4a6)')
         } else {
             setBackground('linear-gradient(-45deg, #cccccc, #999999)')
@@ -28,30 +30,15 @@ const UserSearchBox = ({user}) => {
 
     const addNewAdmin = async (e) => {
         e.preventDefault();
-        const id = user.id;
-        await requestAddNewAdmin(id)
-            .then(data => {
-                setInfoMessage(data)
-                setOpenWindow(true);
-            })
-    }
-
-    // :TODO Проверить механику создания групп и инвайта в них
-    const invite = async (e) => {
-        e.preventDefault();
-        const userName = user.email;
-        const userId = user.id
-        console.log(userId)
-        let profile = localStorage.getItem('token');
-        if (profile) {
-            profile = jwt_decode(profile);
-            const adminId = profile.id
-            await inviteToAGroup(adminId, `тры`, userName)
+        if (user.user.role === 'ADMIN') {
+            const id = userInfo.id;
+            await requestAddNewAdmin(id)
                 .then(data => {
                     setInfoMessage(data)
                     setOpenWindow(true);
                 })
         }
+
     }
 
     const close = (x) => {
@@ -67,13 +54,13 @@ const UserSearchBox = ({user}) => {
                     <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                     </Typography>
                     <Typography variant="h5" component="div">
-                        {user.email}
+                        {userInfo.email}
                     </Typography>
                     <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                        {user.role}
+                        {userInfo.role}
                     </Typography>
                     {
-                        user.role !== 'ADMIN'
+                        userInfo.role !== 'ADMIN'
                             ? <Typography variant="body2">
                                 <Button
                                     onClick={addNewAdmin}
@@ -83,13 +70,6 @@ const UserSearchBox = ({user}) => {
                             </Typography>
                             : <div></div>
                     }
-                    <Typography variant="body2">
-                        <Button
-                            onClick={invite}
-                        >
-                            Пригласить в группу
-                        </Button>
-                    </Typography>
                 </CardContent>
             </Card>
             <SnackbarMessage setOpenWindow={setOpenWindow} close={close} info={infoMessage} openWindow={openWindow}/>

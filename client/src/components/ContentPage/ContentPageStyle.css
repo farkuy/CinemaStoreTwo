@@ -191,7 +191,7 @@ h2 {
     padding: 0 5% 0 5%;
     position: relative;
     justify-items: center;
-
+    margin-bottom: 50px;
 }
 
 @media (max-width: 870px) {

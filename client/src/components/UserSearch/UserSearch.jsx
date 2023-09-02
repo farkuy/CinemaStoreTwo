@@ -42,7 +42,7 @@ const UserSearch = () => {
             <div>
                 {
                     userList.map((user) => {
-                        return <UserSearchBox user={user}/>
+                        return <UserSearchBox userInfo={user}/>
                     })
                 }
             </div>
